@@ -202,7 +202,8 @@
     'line',
   ];
 
-  export let count = 50;
+  export let wordCount;
+  export let charCount;
 
   type Word = {
     word: string;
@@ -224,7 +225,10 @@
     }
     return words;
   }
-  export const words = generate(count);
+  $: words = generate(wordCount);
+  $: charCount = words
+    .map((word) => word.characters.length)
+    .reduce((a, b) => a + b, 0);
 </script>
 
 <div class={'words'}>

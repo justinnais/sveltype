@@ -5,6 +5,10 @@
   import 'carbon-components-svelte/css/g100.css';
   import { Container } from 'sveltestrap';
   import Words from './lib/Words.svelte';
+  import Keypress from './lib/Keypress.svelte';
+
+  let wordCount: number = 10;
+  let charCount: number = 0;
 </script>
 
 <div class="app">
@@ -12,7 +16,11 @@
     <Header />
     <main>
       <section>
-        <Words count={10} />
+        <input type="number" bind:value={wordCount} min="10" max="100" />
+        <Counter title="words" count={wordCount} />
+        <Counter title="chars" count={charCount} />
+        <Keypress />
+        <Words bind:wordCount bind:charCount />
       </section>
     </main>
   </div>
