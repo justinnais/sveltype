@@ -1,252 +1,29 @@
 <script lang="ts">
-  const listOfWords = [
-    'the',
-    'be',
-    'of',
-    'and',
-    'a',
-    'to',
-    'in',
-    'he',
-    'have',
-    'it',
-    'that',
-    'for',
-    'they',
-    'I',
-    'with',
-    'as',
-    'not',
-    'on',
-    'she',
-    'at',
-    'by',
-    'this',
-    'we',
-    'you',
-    'do',
-    'but',
-    'from',
-    'or',
-    'which',
-    'one',
-    'would',
-    'all',
-    'will',
-    'there',
-    'say',
-    'who',
-    'make',
-    'when',
-    'can',
-    'more',
-    'if',
-    'no',
-    'man',
-    'out',
-    'other',
-    'so',
-    'what',
-    'time',
-    'up',
-    'go',
-    'about',
-    'than',
-    'into',
-    'could',
-    'state',
-    'only',
-    'new',
-    'year',
-    'some',
-    'take',
-    'come',
-    'these',
-    'know',
-    'see',
-    'use',
-    'get',
-    'like',
-    'then',
-    'first',
-    'any',
-    'work',
-    'now',
-    'may',
-    'such',
-    'give',
-    'over',
-    'think',
-    'most',
-    'even',
-    'find',
-    'day',
-    'also',
-    'after',
-    'way',
-    'many',
-    'must',
-    'look',
-    'before',
-    'great',
-    'back',
-    'through',
-    'long',
-    'where',
-    'much',
-    'should',
-    'well',
-    'people',
-    'down',
-    'own',
-    'just',
-    'because',
-    'good',
-    'each',
-    'those',
-    'feel',
-    'seem',
-    'how',
-    'high',
-    'too',
-    'place',
-    'little',
-    'world',
-    'very',
-    'still',
-    'nation',
-    'hand',
-    'old',
-    'life',
-    'tell',
-    'write',
-    'become',
-    'here',
-    'show',
-    'house',
-    'both',
-    'between',
-    'need',
-    'mean',
-    'call',
-    'develop',
-    'under',
-    'last',
-    'right',
-    'move',
-    'thing',
-    'general',
-    'school',
-    'never',
-    'same',
-    'another',
-    'begin',
-    'while',
-    'number',
-    'part',
-    'turn',
-    'real',
-    'leave',
-    'might',
-    'want',
-    'point',
-    'form',
-    'off',
-    'child',
-    'few',
-    'small',
-    'since',
-    'against',
-    'ask',
-    'late',
-    'home',
-    'interest',
-    'large',
-    'person',
-    'end',
-    'open',
-    'public',
-    'follow',
-    'during',
-    'present',
-    'without',
-    'again',
-    'hold',
-    'govern',
-    'around',
-    'possible',
-    'head',
-    'consider',
-    'word',
-    'program',
-    'problem',
-    'however',
-    'lead',
-    'system',
-    'set',
-    'order',
-    'eye',
-    'plan',
-    'run',
-    'keep',
-    'face',
-    'fact',
-    'group',
-    'play',
-    'stand',
-    'increase',
-    'early',
-    'course',
-    'change',
-    'help',
-    'line',
-  ];
-
-  export let wordCount;
-  export let charCount;
-
-  type Word = {
-    word: string;
-    characters: string[];
-  };
-
-  /* Generates list of random words */
-  function generate(count: number) {
-    const words: Word[] = [];
-    for (let i = 0; i < count; i++) {
-      const lastWord: boolean = i === count - 1;
-      let word = listOfWords[Math.floor(Math.random() * listOfWords.length)];
-      // if not the last word add a space
-      if (!lastWord) {
-        word = `${word} `;
-      }
-      const characters = word.split('');
-      words[i] = { word, characters };
-    }
-    return words;
-  }
-  $: words = generate(wordCount);
-  $: charCount = words
-    .map((word) => word.characters.length)
-    .reduce((a, b) => a + b, 0);
+  import Word from '../lib/Word.svelte';
+  import type { IWord } from '../types/types';
+  // array of Word objects
+  export let words: IWord[];
 </script>
 
-<div class={'words'}>
-  {#each words as word}
-    <span>
-      {#each word.characters as char}
-        <span class="char">{char}</span>
-      {/each}
-    </span>
-  {/each}
+<div class="words-container">
+  <!-- add a caret -->
+  <div class="words">
+    {#each words as word, key}
+      <Word {word} {key} />
+    {/each}
+  </div>
 </div>
 
 <style>
-  /* your styles go here */
-  .words {
-    font-size: 1.5rem;
+  .words-container {
+    min-height: 10rem;
+    overflow: hidden;
   }
-  .char {
-    /* border: 1px solid green; */
+  .words {
+    font-family: monospace;
+    font-size: 1.5rem;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
   }
 </style>
