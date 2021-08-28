@@ -1,27 +1,53 @@
 <script lang="ts">
-  import logo from './assets/svelte.png';
   import Counter from './lib/Counter.svelte';
   import Header from './lib/Header.svelte';
   import 'carbon-components-svelte/css/g100.css';
-  import { Container } from 'sveltestrap';
   import Words from './lib/Words.svelte';
   import Keypress from './lib/Keypress.svelte';
+  import WordCountRadio from './lib/WordCountRadio.svelte';
+  import { generateWords } from './utils/generate';
 
-  let wordCount: number = 10;
-  let charCount: number = 0;
+  let selectedWordCount: string = '50';
+  $: wordCount = parseInt(selectedWordCount);
+  $: wordObjects = generateWords(wordCount);
+  $: words = wordObjects.map((item) => item.word);
+  $: chars = wordObjects.map((item) => item.characters).flat();
+  $: console.log(chars);
+  
+  $: sentence = chars.join('');
+  $: caretPosition = keyArray.length - 1;
+  let keyArray: string[] = [];
+
+  function correct(keyArray) {
+    const charsMatch = chars[caretPosition] === keyArray[caretPosition];
+    console.log(
+      `pos ${caretPosition}`,
+      chars[caretPosition],
+      keyArray[caretPosition],
+      charsMatch
+    );
+    return charsMatch;
+  }
+  $: isCorrect = correct(keyArray);
 </script>
 
 <div class="app">
   <div class="content">
     <Header />
     <main>
-      <section>
-        <input type="number" bind:value={wordCount} min="10" max="100" />
+      <div><WordCountRadio bind:selected={selectedWordCount} /></div>
+      <div class="counters">
         <Counter title="words" count={wordCount} />
-        <Counter title="chars" count={charCount} />
-        <Keypress />
-        <Words bind:wordCount bind:charCount />
-      </section>
+        <Counter title="chars" count={chars.length} />
+        <Counter title="position" count={caretPosition} />
+      </div>
+      <Keypress bind:keyArray />
+      <div>
+        {#each keyArray as key}
+          <span class:correct={isCorrect}>{key}</span>
+        {/each}
+      </div>
+      <Words words={wordObjects} />
     </main>
   </div>
 </div>
@@ -48,7 +74,16 @@
     align-items: center;
   }
 
-  section {
+  main {
     border: 1px blue solid;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 500px;
+  }
+
+  .counters {
+    display: flex;
+    justify-content: space-evenly;
   }
 </style>

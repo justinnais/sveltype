@@ -1,12 +1,12 @@
 <script>
 </script>
 
-<div>
+<header>
   <h1>Sveltype</h1>
-</div>
+</header>
 
 <style>
-  div {
-      border: 1px solid red;
+  header {
+    border: 1px solid red;
   }
 </style>
