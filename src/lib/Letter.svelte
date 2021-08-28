@@ -10,13 +10,13 @@
   class="char"
   class:correct={status === true}
   class:incorrect={status === false}
-  id={`char-${key + 1 }`}
-  >{@html char === ' ' ? space : char}</letter
+  id={`char-${key + 1}`}>{@html char === ' ' ? space : char}</letter
 >
 
 <style>
   .char {
     color: grey;
+    margin: 0.1rem;
   }
   .correct {
     color: white;
@@ -24,4 +24,6 @@
   .incorrect {
     color: red;
   }
+
+
 </style>

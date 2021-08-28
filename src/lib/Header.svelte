@@ -6,7 +6,4 @@
 </header>
 
 <style>
-  header {
-    border: 1px solid red;
-  }
 </style>

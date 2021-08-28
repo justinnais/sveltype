@@ -3,13 +3,14 @@
   import type { IWord } from '../types/types';
   // array of Word objects
   export let words: IWord[];
+  
 </script>
 
 <div class="words-container">
   <!-- add a caret -->
   <div class="words">
     {#each words as word, key}
-      <Word {word} {key} />
+      <Word {word} {key}/>
     {/each}
   </div>
 </div>

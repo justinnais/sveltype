@@ -6,6 +6,7 @@
   import Keypress from './lib/Keypress.svelte';
   import WordCountRadio from './lib/WordCountRadio.svelte';
   import { generateWords } from './utils/generate';
+  import Caret from './lib/Caret.svelte';
 
   let selectedWordCount: string = '50';
   $: wordCount = parseInt(selectedWordCount);
@@ -13,19 +14,28 @@
   $: words = wordObjects.map((item) => item.word);
   $: chars = wordObjects.map((item) => item.characters).flat();
   $: console.log(chars);
-  
+
   $: sentence = chars.join('');
   $: caretPosition = keyArray.length - 1;
   let keyArray: string[] = [];
 
+  // $: console.log('app', caretPosition);
+  $: complete = JSON.stringify(keyArray) === JSON.stringify(chars);
+
+  $: console.log(complete);
+
+  // $: if (complete) {
+  //   console.log('COMPLETE');
+  // }
+
   function correct(keyArray) {
     const charsMatch = chars[caretPosition] === keyArray[caretPosition];
-    console.log(
-      `pos ${caretPosition}`,
-      chars[caretPosition],
-      keyArray[caretPosition],
-      charsMatch
-    );
+    // console.log(
+    //   `pos ${caretPosition}`,
+    //   chars[caretPosition],
+    //   keyArray[caretPosition],
+    //   charsMatch
+    // );
     return charsMatch;
   }
   $: isCorrect = correct(keyArray);
@@ -47,7 +57,10 @@
           <span class:correct={isCorrect}>{key}</span>
         {/each}
       </div>
-      <Words words={wordObjects} />
+      <div class="foo">
+        <Caret />
+        <Words words={wordObjects} />
+      </div>
     </main>
   </div>
 </div>
@@ -75,7 +88,6 @@
   }
 
   main {
-    border: 1px blue solid;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -85,5 +97,9 @@
   .counters {
     display: flex;
     justify-content: space-evenly;
+  }
+
+  .foo {
+    display: flex;
   }
 </style>
