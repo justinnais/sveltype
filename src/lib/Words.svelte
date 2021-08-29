@@ -10,23 +10,17 @@
 
   export let words: IWord[];
   export let keyArray;
-  export let chars;
-  export let letterId;
-
   let space = '&nbsp;';
-
-  function getCharId() {
-    return (letterId += 1);
-  }
+  /* TODO there is an issue with the generation of ids when the words are regenerated, will make some id's be random digits that are not apart of chars array */
 </script>
 
 <div class="words-container">
   <div class="words">
-    {#each words as word, key}
-      <span id={`word-${key}`} class="word">
-        {#each word.characters as char, key}
-          <Letter id={getCharId()} {keyArray} {chars}
-            >{@html char === ' ' ? space : char}</Letter
+    {#each words as word}
+      <span id={`word-${word.id}`} class="word">
+        {#each word.characters as char}
+          <Letter id={char.id} {keyArray} {words}
+            >{@html char.char === ' ' ? space : char.char}</Letter
           >
         {/each}
       </span>

@@ -6,17 +6,12 @@
   import Keypress from './lib/Keypress.svelte';
   import WordCountRadio from './lib/WordCountRadio.svelte';
   import { generateWords } from './utils/generate';
-  import Caret from './lib/Caret.svelte';
-  import { onMount } from 'svelte';
+  import { wordsToChars } from './wordsToChars';
 
+  // default word count
   let selectedWordCount: string = '50';
   $: wordCount = parseInt(selectedWordCount);
-  $: wordObjects = generateWords(wordCount);
-  $: words = wordObjects.map((item) => item.word);
-  $: chars = wordObjects.map((item) => item.characters).flat();
-  $: letterId = -1;
-
-  // TODO on update of words limit, reset key array and chars to []
+  $: words = generateWords(wordCount);
   let keyArray: string[] = [];
   $: caretPosition = keyArray.length - 1;
 
@@ -27,21 +22,14 @@
 
   function reset() {
     console.log('resetting game');
-
     keyArray = [];
-    letterId = -1;
   }
 
-  // $: console.log('app', caretPosition);
-  $: correct = JSON.stringify(keyArray) === JSON.stringify(chars);
-  $: completed = keyArray.length === chars.length;
+  $: correct = JSON.stringify(keyArray) === JSON.stringify(wordsToChars(words));
+  $: completed = keyArray.length === wordsToChars(words).length;
 
   $: console.log('100% Correct', correct);
   $: console.log('Challenge completed', completed);
-
-  // $: if (complete) {
-  //   console.log('COMPLETE');
-  // }
 </script>
 
 <div class="app">
@@ -51,16 +39,11 @@
       <div><WordCountRadio bind:selected={selectedWordCount} /></div>
       <div class="counters">
         <Counter title="words" count={wordCount} />
-        <Counter title="chars" count={chars.length} />
+        <Counter title="chars" count={wordsToChars(words).length} />
         <Counter title="position" count={caretPosition} />
       </div>
       <Keypress bind:keyArray />
-      <div>
-        {#each keyArray as key}
-          <span>{key}</span>
-        {/each}
-      </div>
-      <Words words={wordObjects} {keyArray} {chars} {letterId} />
+      <Words {words} {keyArray} />
     </main>
   </div>
 </div>

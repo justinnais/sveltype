@@ -2,10 +2,9 @@ import type { IChar, IWord } from 'src/types/types';
 
 export function generateWords(count: number) {
   let wordsArr: IWord[] = [];
-  let charsArr: IChar[] = [];
   let charId = -1;
-  for (let i = 0; i < count; i++) {
-    const lastWord: boolean = i === count - 1;
+  for (let id = 0; id < count; id++) {
+    const lastWord: boolean = id === count - 1;
     let word = listOfWords[Math.floor(Math.random() * listOfWords.length)];
 
     // if not the last word add a space
@@ -15,18 +14,14 @@ export function generateWords(count: number) {
     // split word into chars
     const chars = word.split('');
 
-    let wordChars = []
+    let characters = [];
     chars.forEach((char) => {
       let id = (charId += 1);
-      wordChars.push({ char, id });
+      characters.push({ char, id });
     });
 
-    wordsArr[i] = { word, characters: wordChars, id: i };
-    // wordsArr[i] = { word, characters: chars };
-    console.log(wordsArr[i]);
-    
+    wordsArr[id] = { word, characters, id };
   }
-  
   return wordsArr;
 }
 

@@ -1,40 +1,39 @@
 <script lang="ts">
+  import { wordsToChars } from '../wordsToChars';
   import Caret from './Caret.svelte';
+
   export let id;
   export let keyArray;
-  export let chars;
+  export let words;
 
   $: touched = keyArray.length > id;
-  $: isCorrect = chars[id] === keyArray[id];
+  $: isCorrect = wordsToChars(words)[id].char === keyArray[id];
   $: showCaret = keyArray.length === id;
 </script>
 
 <span
-  class="span"
-  class:showingCaret={showCaret}
-  class:incorrect={!isCorrect && touched}
+  id={`char-${id}`}
+  class="letter"
+  class:showCaret
+  class:incorrect={touched && !isCorrect}
+  class:correct={touched && isCorrect}
 >
   {#if showCaret}
     <Caret />
   {/if}
-  <span id={`char-${id}`} class="char" class:correct={isCorrect && touched}>
-    <slot />
-  </span>
+  <slot />
 </span>
 
 <style>
-  .span {
+  .letter {
     /* padding left size of caret width */
     padding: 0 2px;
     display: inline-flex;
+    color: grey;
   }
-  .showingCaret {
+  .showCaret {
     /* if showing the caret, get rid of padding so letters do not shift around  */
     padding-left: 0;
-  }
-  .char {
-    color: grey;
-    /* margin: 0.1rem; */
   }
   .correct {
     color: white;
