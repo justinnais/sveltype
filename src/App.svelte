@@ -20,9 +20,11 @@
   let keyArray: string[] = [];
 
   // $: console.log('app', caretPosition);
-  $: complete = JSON.stringify(keyArray) === JSON.stringify(chars);
+  $: correct = JSON.stringify(keyArray) === JSON.stringify(chars);
+  $: completed = keyArray.length === chars.length;
 
-  $: console.log(complete);
+  $: console.log('100% Correct', correct);
+  $: console.log('Challenge completed', completed);
 
   // $: if (complete) {
   //   console.log('COMPLETE');
