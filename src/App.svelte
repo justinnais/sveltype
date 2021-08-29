@@ -7,17 +7,30 @@
   import WordCountRadio from './lib/WordCountRadio.svelte';
   import { generateWords } from './utils/generate';
   import Caret from './lib/Caret.svelte';
+  import { onMount } from 'svelte';
 
   let selectedWordCount: string = '50';
   $: wordCount = parseInt(selectedWordCount);
   $: wordObjects = generateWords(wordCount);
   $: words = wordObjects.map((item) => item.word);
   $: chars = wordObjects.map((item) => item.characters).flat();
-  $: console.log(chars);
+  $: letterId = -1;
+
   // TODO on update of words limit, reset key array and chars to []
-  $: sentence = chars.join('');
-  $: caretPosition = keyArray.length - 1;
   let keyArray: string[] = [];
+  $: caretPosition = keyArray.length - 1;
+
+  $: if (selectedWordCount) {
+    // if we update the radio buttons, reset the game
+    reset();
+  }
+
+  function reset() {
+    console.log('resetting game');
+
+    keyArray = [];
+    letterId = -1;
+  }
 
   // $: console.log('app', caretPosition);
   $: correct = JSON.stringify(keyArray) === JSON.stringify(chars);
@@ -47,10 +60,7 @@
           <span>{key}</span>
         {/each}
       </div>
-      <div class="foo">
-        <!-- <Caret /> -->
-        <Words words={wordObjects} {keyArray} {chars} />
-      </div>
+      <Words words={wordObjects} {keyArray} {chars} {letterId} />
     </main>
   </div>
 </div>
@@ -87,9 +97,5 @@
   .counters {
     display: flex;
     justify-content: space-evenly;
-  }
-
-  .foo {
-    display: flex;
   }
 </style>

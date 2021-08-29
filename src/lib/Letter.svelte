@@ -17,7 +17,7 @@
   {#if showCaret}
     <Caret />
   {/if}
-  <span id={`char-${id}`} class="char" class:correct={isCorrect}>
+  <span id={`char-${id}`} class="char" class:correct={isCorrect && touched}>
     <slot />
   </span>
 </span>

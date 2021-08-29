@@ -1,12 +1,18 @@
 <script lang="ts">
+  import { onDestroy, onMount } from 'svelte';
+
   import Letter from '../lib/Letter.svelte';
   import type { IWord } from '../types/types';
+
+  onMount(() => {
+    console.log('mounting words');
+  });
 
   export let words: IWord[];
   export let keyArray;
   export let chars;
+  export let letterId;
 
-  let letterId = -1;
   let space = '&nbsp;';
 
   function getCharId() {
