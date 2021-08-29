@@ -27,18 +27,6 @@
   // $: if (complete) {
   //   console.log('COMPLETE');
   // }
-
-  function correct(keyArray) {
-    const charsMatch = chars[caretPosition] === keyArray[caretPosition];
-    // console.log(
-    //   `pos ${caretPosition}`,
-    //   chars[caretPosition],
-    //   keyArray[caretPosition],
-    //   charsMatch
-    // );
-    return charsMatch;
-  }
-  $: isCorrect = correct(keyArray);
 </script>
 
 <div class="app">
@@ -54,12 +42,12 @@
       <Keypress bind:keyArray />
       <div>
         {#each keyArray as key}
-          <span class:correct={isCorrect}>{key}</span>
+          <span>{key}</span>
         {/each}
       </div>
       <div class="foo">
-        <Caret />
-        <Words words={wordObjects} />
+        <!-- <Caret /> -->
+        <Words words={wordObjects} {keyArray} {chars} />
       </div>
     </main>
   </div>

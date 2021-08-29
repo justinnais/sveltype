@@ -1,10 +1,12 @@
 <script lang="ts">
-  import Word from '../lib/Word.svelte';
   import Letter from '../lib/Letter.svelte';
   import type { IWord } from '../types/types';
-  // array of Word objects
+
   export let words: IWord[];
-  let letterId = 0;
+  export let keyArray;
+  export let chars;
+  
+  let letterId = -1;
   let space = '&nbsp;';
 
   function getCharId() {
@@ -17,23 +19,15 @@
     {#each words as word, key}
       <span id={`word-${key}`} class="word">
         {#each word.characters as char, key}
-          <Letter id={getCharId()}>{@html char === ' ' ? space : char}</Letter>
-          <!-- <letter class="char" id={`char-${getCharId()}`}
-            >{@html char === ' ' ? space : char}</letter
-          > -->
+          <Letter id={getCharId()} {keyArray} {chars}
+            >{@html char === ' ' ? space : char}</Letter
+          >
         {/each}
       </span>
     {/each}
   </div>
 </div>
 
-<!-- <div class="words-container">
-  <div class="words">
-    {#each words as word, key}
-      <Word {word} {key}/>
-    {/each}
-  </div>
-</div> -->
 <style>
   .words-container {
     min-height: 10rem;
