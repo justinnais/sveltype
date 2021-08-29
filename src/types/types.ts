@@ -1,12 +1,12 @@
 export interface IWord {
   word: string;
-  characters: string[];
-  // characters: IChar[];
+  characters: IChar[];
+  id: number;
 }
 
 export interface IChar {
   char: string;
-  status: LetterStatus;
+  id: number;
 }
 
 // undefined if not touched, true if correct, false if incorrect

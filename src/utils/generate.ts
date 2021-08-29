@@ -3,6 +3,7 @@ import type { IChar, IWord } from 'src/types/types';
 export function generateWords(count: number) {
   let wordsArr: IWord[] = [];
   let charsArr: IChar[] = [];
+  let charId = -1;
   for (let i = 0; i < count; i++) {
     const lastWord: boolean = i === count - 1;
     let word = listOfWords[Math.floor(Math.random() * listOfWords.length)];
@@ -14,13 +15,18 @@ export function generateWords(count: number) {
     // split word into chars
     const chars = word.split('');
 
-    // chars.forEach((char) => {
-    //   charsArr.push({ char, status: undefined });
-    // });
+    let wordChars = []
+    chars.forEach((char) => {
+      let id = (charId += 1);
+      wordChars.push({ char, id });
+    });
 
-    // wordsArr[i] = { word, characters: charsArr };
-    wordsArr[i] = { word, characters: chars };
+    wordsArr[i] = { word, characters: wordChars, id: i };
+    // wordsArr[i] = { word, characters: chars };
+    console.log(wordsArr[i]);
+    
   }
+  
   return wordsArr;
 }
 
