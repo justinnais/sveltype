@@ -1,39 +1,36 @@
 <script lang="ts">
   import Caret from './Caret.svelte';
-  // import type { LetterStatus } from 'src/types/types';
-  // export let char;
-  // export let key;
-  // export let status: LetterStatus = undefined;
-  // let space = '&nbsp;';
   export let id;
   export let keyArray;
   export let chars;
 
   $: touched = keyArray.length > id;
   $: isCorrect = chars[id] === keyArray[id];
-
-  // function isCorrect(keyArray) {
-  //   const charsMatch = chars[id] === keyArray[id];
-  //   console.log(id, chars[id], keyArray[id]);
-  //   return charsMatch;
-  // }
+  $: showCaret = keyArray.length === id;
 </script>
 
-<span class="span">
-  <!-- <Caret /> -->
-  <span
-    id={`char-${id}`}
-    class="char"
-    class:correct={isCorrect}
-    class:incorrect={!isCorrect && touched}
-  >
+<span
+  class="span"
+  class:showingCaret={showCaret}
+  class:incorrect={!isCorrect && touched}
+>
+  {#if showCaret}
+    <Caret />
+  {/if}
+  <span id={`char-${id}`} class="char" class:correct={isCorrect}>
     <slot />
   </span>
 </span>
 
 <style>
   .span {
+    /* padding left size of caret width */
+    padding: 0 2px;
     display: inline-flex;
+  }
+  .showingCaret {
+    /* if showing the caret, get rid of padding so letters do not shift around  */
+    padding-left: 0;
   }
   .char {
     color: grey;
@@ -43,6 +40,6 @@
     color: white;
   }
   .incorrect {
-    color: red;
+    background-color: rgb(160, 67, 67);
   }
 </style>

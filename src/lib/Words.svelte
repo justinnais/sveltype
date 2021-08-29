@@ -5,7 +5,7 @@
   export let words: IWord[];
   export let keyArray;
   export let chars;
-  
+
   let letterId = -1;
   let space = '&nbsp;';
 
@@ -41,6 +41,7 @@
     flex-wrap: wrap;
   }
   .word {
+    display: flex;
     margin-bottom: 0.4rem;
   }
 </style>

@@ -14,7 +14,7 @@
   $: words = wordObjects.map((item) => item.word);
   $: chars = wordObjects.map((item) => item.characters).flat();
   $: console.log(chars);
-
+  // TODO on update of words limit, reset key array and chars to []
   $: sentence = chars.join('');
   $: caretPosition = keyArray.length - 1;
   let keyArray: string[] = [];
