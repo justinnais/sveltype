@@ -1,14 +1,14 @@
 <script lang="ts">
-  import { wordsToChars } from '../wordsToChars';
+  import { wordsToChars } from '../utils/wordsToChars';
   import Caret from './Caret.svelte';
 
   export let id;
-  export let keyArray;
+  export let currentChars;
   export let words;
 
-  $: touched = keyArray.length > id;
-  $: isCorrect = wordsToChars(words)[id].char === keyArray[id];
-  $: showCaret = keyArray.length === id;
+  $: touched = currentChars.length > id;
+  $: isCorrect = wordsToChars(words)[id].char === currentChars[id];
+  $: showCaret = currentChars.length === id;
 </script>
 
 <span

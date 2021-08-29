@@ -1,15 +1,9 @@
 <script lang="ts">
-  import { onDestroy, onMount } from 'svelte';
-
   import Letter from '../lib/Letter.svelte';
   import type { IWord } from '../types/types';
 
-  onMount(() => {
-    console.log('mounting words');
-  });
-
   export let words: IWord[];
-  export let keyArray;
+  export let currentChars;
   let space = '&nbsp;';
   /* TODO there is an issue with the generation of ids when the words are regenerated, will make some id's be random digits that are not apart of chars array */
 </script>
@@ -19,7 +13,7 @@
     {#each words as word}
       <span id={`word-${word.id}`} class="word">
         {#each word.characters as char}
-          <Letter id={char.id} {keyArray} {words}
+          <Letter id={char.id} {currentChars} {words}
             >{@html char.char === ' ' ? space : char.char}</Letter
           >
         {/each}
