@@ -6,7 +6,7 @@
 
 <span id={`word-${key}`} class="word">
   {#each word.characters as char, key}
-    <Letter {char} {key} />
+    <!-- <Letter {char} {key} /> -->
   {/each}
 </span>
 
