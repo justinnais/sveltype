@@ -10,58 +10,58 @@
   import StartButton from './lib/StartButton.svelte';
   import { Button } from 'carbon-components-svelte';
   import { calculateAccuracy } from './utils/calculateAccuracy';
+  import Timer from './lib/Timer.svelte';
+  import Accuracy from './lib/Accuracy.svelte';
+  import Restart from './lib/Restart.svelte';
+  import { currentTime } from './utils/timeLogic';
+  import { calculateWPM } from './utils/calculateWPM';
 
-  // default word count
-  let selectedWordCount: string = '50';
+  /* WORDS */
+  let selectedWordCount: string = '50'; // defualt word count
   $: wordCount = parseInt(selectedWordCount);
-  $: words = generateWords(wordCount);
-  let currentChars: string[] = [];
-  let typedChars: string[] = [];
-  $: caretPosition = currentChars.length - 1;
+  $: words = generateWords(wordCount); // list of generated words
 
-  $: if (selectedWordCount) {
-    // if we update the radio buttons, reset the game
-    reset();
-  }
+  /* CHARS */
+  let currentChars: string[] = []; // array of corrected characters, used to get caret position
+  let typedChars: string[] = []; // typed chars is all characters typed including errors
 
-  function reset() {
-    console.log('resetting game');
-    gameRunning = false;
-    words = generateWords(wordCount);
-    console.log(currentChars);
-
-    currentChars = [];
-    typedChars = [];
-    wordsCompleted = 0;
-    console.log(currentChars);
-  }
-
-  $: correct =
-    JSON.stringify(currentChars) === JSON.stringify(wordsToChars(words));
-  $: completed = currentChars.length === wordsToChars(words).length;
-
-  $: console.log('100% Correct', correct);
-  $: console.log('Challenge completed', completed);
-
+  /* GAME STATE */
   let gameRunning = false;
 
-  function start() {
+  function startTest() {
     gameRunning = true;
-    console.log('game has started');
+    startTime = currentTime();
   }
 
-  $: if (completed) {
-    reset();
+  function resetTest() {
+    gameRunning = false;
+    words = generateWords(wordCount);
+    currentChars = [];
+    typedChars = [];
+    startTime = 0;
   }
-  $: accuracy = calculateAccuracy(currentChars, typedChars, words);
 
-  $: wordsCompleted = 0;
+  $: completed = currentChars.length === wordsToChars(words).length;
+  $: if (selectedWordCount || completed) {
+    // if we update word count or game completed, restart
+    resetTest();
+  }
+
+  /* TIME */
+  let startTime = 0;
+
+  /* WPM */
+  let wpm = 0;
   $: if (currentChars[currentChars.length - 1] === ' ') {
-    // todo this is a cheese way to do this that adds a word no matter where the space is
-    console.log('is space');
-
-    wordsCompleted += 1;
+    // calcs wpm on spacebar
+    wpm = calculateWPM(words, currentChars, startTime);
   }
+
+  /* ACCURACY */
+
+  /* RESULTS */
+  $: correct =
+    JSON.stringify(currentChars) === JSON.stringify(wordsToChars(words));
 </script>
 
 <div class="app">
@@ -71,20 +71,21 @@
       <div class="counters">
         {#if !gameRunning}
           <h4>Type to start</h4>
-        {:else if !Number.isNaN(accuracy)}
+        {:else}
           <Counter title="words" count={words.length} />
-          <Counter title="completed" count={wordsCompleted} />
-          <Counter title="%" count={accuracy} />
+          <Counter title="wpm" count={wpm} />
         {/if}
       </div>
       <Keypress
         bind:currentChars
         bind:typedChars
         bind:gameRunning
-        {start}
-        {reset}
+        start={startTest}
+        reset={resetTest}
       />
       <Words {words} {currentChars} />
+
+      <Restart reset={resetTest} />
     </main>
   </div>
 </div>

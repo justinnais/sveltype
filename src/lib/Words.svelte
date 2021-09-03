@@ -5,7 +5,6 @@
   export let words: IWord[];
   export let currentChars;
   let space = '&nbsp;';
-  /* TODO there is an issue with the generation of ids when the words are regenerated, will make some id's be random digits that are not apart of chars array */
 </script>
 
 <div class="words-container">

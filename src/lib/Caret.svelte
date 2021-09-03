@@ -1,6 +1,3 @@
-<script>
-</script>
-
 <div class="caret" />
 
 <style>

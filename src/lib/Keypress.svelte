@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { text } from 'svelte/internal';
-
   // https://svelte.dev/tutorial/svelte-window
   // https://svelte.dev/tutorial/updating-arrays-and-objects
   let key: string;
@@ -27,13 +25,13 @@
 
     if (key === 'Backspace') {
       currentChars.pop();
-    } else {
-      isChar && currentChars.push(key);
+      typedChars.push(key);
+    } else if (isChar) {
+      currentChars.push(key);
+      typedChars.push(key);
     }
     currentChars = currentChars;
-
     // push all typed characters to calc the accuracy
-    isChar && typedChars.push(key);
     typedChars = typedChars;
   }
 </script>
