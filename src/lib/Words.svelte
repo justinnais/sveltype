@@ -7,7 +7,7 @@
   let space = '&nbsp;';
 </script>
 
-<div class="words-container">
+<div class="words-container" tabindex="0">
   <div class="words">
     {#each words as word}
       <span id={`word-${word.id}`} class="word">
@@ -26,6 +26,9 @@
     min-height: 10rem;
     overflow: hidden;
   }
+  /* .words-container:focus {
+    border: 1px red solid;
+  } */
   .words {
     font-family: monospace;
     font-size: 1.5rem;

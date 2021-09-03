@@ -62,11 +62,12 @@
   /* RESULTS */
   $: correct =
     JSON.stringify(currentChars) === JSON.stringify(wordsToChars(words));
+
 </script>
 
 <div class="app">
   <div class="content">
-    <Header bind:selectedWordCount />
+    <Header bind:selectedWordCount  reset={resetTest}/>
     <main>
       <div class="counters">
         {#if !gameRunning}

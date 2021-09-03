@@ -6,8 +6,14 @@
   export let reset: () => void;
 </script>
 
-<Button on:click={reset}>Restart</Button>
+<button on:click={reset} class="bx--btn" tabindex="0">Restart</button>
 
 <style>
-  /* your styles go here */
+  button {
+    align-self: center;
+    background-color: #ff3e00;
+    border: 1px solid transparent;
+    color: var(--cds-text-04, #fff);
+  }
+
 </style>
