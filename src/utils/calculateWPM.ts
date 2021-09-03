@@ -14,7 +14,9 @@ export function calculateWPM(
   const averageWordLength = characterCount / wordCount;
   const duration = (currentTime() - startTime) / 60000;
 
-  return parseInt(
+  const wpm = parseInt(
     (currentChars.length / averageWordLength / duration).toFixed(2)
   );
+
+  return isNaN(wpm) ? 0 : wpm;
 }

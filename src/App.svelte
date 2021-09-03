@@ -58,6 +58,8 @@
   }
 
   /* ACCURACY */
+  let accuracy = 0;
+  $: accuracy = calculateAccuracy(currentChars, typedChars, words)
 
   /* RESULTS */
   $: correct =
@@ -75,6 +77,7 @@
         {:else}
           <Counter title="words" count={words.length} />
           <Counter title="wpm" count={wpm} />
+          <Counter title="accuracy" count={accuracy} />
         {/if}
       </div>
       <Keypress

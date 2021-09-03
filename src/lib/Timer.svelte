@@ -1,17 +1,13 @@
-<script>
-  let startTime = 0;
-  let duration = (currentTime() - startTime) / 60000;
+<script lang="ts">
+  export let startTime: number;
+  export let testLength: number;
 
-  function currentTime() {
-    return new Date().getTime();
-  }
+  const finishTime = startTime + testLength;
 
-  export let gameRunning;
 
-  if (gameRunning) {
-    startTime = currentTime();
-  }
-
+  let foo = setInterval(() => {
+    
+  })
 </script>
 
 <h1>{startTime}</h1>
