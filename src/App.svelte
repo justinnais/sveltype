@@ -7,7 +7,6 @@
   import WordCountRadio from './lib/WordCountRadio.svelte';
   import { generateWords } from './utils/generate';
   import { wordsToChars } from './utils/wordsToChars';
-  import StartButton from './lib/StartButton.svelte';
   import { Button } from 'carbon-components-svelte';
   import { calculateAccuracy } from './utils/calculateAccuracy';
   import Timer from './lib/Timer.svelte';
@@ -80,6 +79,7 @@
           <Counter title="accuracy" count={accuracy} />
         {/if}
       </div>
+      <Timer {startTime} {gameRunning}/>
       <Keypress
         bind:currentChars
         bind:typedChars
