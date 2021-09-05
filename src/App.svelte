@@ -4,7 +4,7 @@
   import 'carbon-components-svelte/css/g100.css';
   import Words from './lib/Words.svelte';
   import Keypress from './lib/Keypress.svelte';
-  import WordCountRadio from './lib/WordCountRadio.svelte';
+  import WordCountRadio from './lib/MetricRadio.svelte';
   import { generateWords } from './utils/generate';
   import { wordsToChars } from './utils/wordsToChars';
   import { Button } from 'carbon-components-svelte';

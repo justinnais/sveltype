@@ -16,4 +16,8 @@
     color: var(--cds-text-04, #fff);
   }
 
+  button:hover {
+    background-color: rgb(208, 52, 0);
+  }
+
 </style>
