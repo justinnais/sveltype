@@ -14,18 +14,23 @@
   import Restart from './lib/Restart.svelte';
   import { currentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
+  import { getCurrentWord } from './utils/getCurrentWord';
 
   /* WORDS */
-  let selectedWordCount: string = '50'; // defualt word count
+  let selectedWordCount: string = '25'; // defualt word count
   $: wordCount = parseInt(selectedWordCount);
   $: words = generateWords(wordCount); // list of generated words
+  $: currentWord = getCurrentWord(words, currentChars);
 
   /* CHARS */
   let currentChars: string[] = []; // array of corrected characters, used to get caret position
   let typedChars: string[] = []; // typed chars is all characters typed including errors
 
+  $: console.log(words);
+
   /* GAME STATE */
   let gameRunning = false;
+  $: gameCompleted = currentChars.length === wordsToChars(words).length;
 
   function startTest() {
     gameRunning = true;
@@ -40,8 +45,7 @@
     startTime = 0;
   }
 
-  $: completed = currentChars.length === wordsToChars(words).length;
-  $: if (selectedWordCount || completed) {
+  $: if (selectedWordCount) {
     // if we update word count or game completed, restart
     resetTest();
   }
@@ -58,38 +62,42 @@
 
   /* ACCURACY */
   let accuracy = 0;
-  $: accuracy = calculateAccuracy(currentChars, typedChars, words)
+  $: accuracy = calculateAccuracy(currentChars, typedChars, words);
 
   /* RESULTS */
   $: correct =
     JSON.stringify(currentChars) === JSON.stringify(wordsToChars(words));
-
 </script>
 
 <div class="app">
   <div class="content">
-    <Header bind:selectedWordCount  reset={resetTest}/>
+    <Header bind:selectedWordCount reset={resetTest} />
     <main>
-      <div class="counters">
-        {#if !gameRunning}
-          <h4>Type to start</h4>
-        {:else}
-          <Counter title="words" count={words.length} />
-          <Counter title="wpm" count={wpm} />
-          <Counter title="accuracy" count={accuracy} />
-        {/if}
-      </div>
-      <Timer {startTime} {gameRunning}/>
-      <Keypress
-        bind:currentChars
-        bind:typedChars
-        bind:gameRunning
-        start={startTest}
-        reset={resetTest}
-      />
-      <Words {words} {currentChars} />
+      {#if !gameCompleted}
+        <div class="counters">
+          {#if !gameRunning}
+            <h4>Type to start</h4>
+          {:else}
+            <Counter title="curr" count={currentWord} />
+            <Counter title="words" count={words.length} />
+            <Counter title="wpm" count={wpm} />
+            <Counter title="accuracy" count={accuracy} />
+          {/if}
+        </div>
+        <!-- <Timer {startTime} {gameRunning} /> -->
+        <Keypress
+          bind:currentChars
+          bind:typedChars
+          bind:gameRunning
+          start={startTest}
+          reset={resetTest}
+        />
+        <Words {words} {currentChars} />
 
-      <Restart reset={resetTest} />
+        <Restart reset={resetTest} />
+      {:else}
+        <div>Game results</div>
+      {/if}
     </main>
   </div>
 </div>
