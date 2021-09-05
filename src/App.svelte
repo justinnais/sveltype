@@ -12,12 +12,13 @@
   import Timer from './lib/Timer.svelte';
   import Accuracy from './lib/Accuracy.svelte';
   import Restart from './lib/Restart.svelte';
+  import Results from './lib/Results.svelte';
   import { currentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
 
   /* WORDS */
-  let selectedWordCount: string = '25'; // defualt word count
+  let selectedWordCount: string = '10'; // defualt word count
   $: wordCount = parseInt(selectedWordCount);
   $: words = generateWords(wordCount); // list of generated words
   $: currentWord = getCurrentWord(words, currentChars);
@@ -26,19 +27,28 @@
   let currentChars: string[] = []; // array of corrected characters, used to get caret position
   let typedChars: string[] = []; // typed chars is all characters typed including errors
 
-  $: console.log(words);
-
   /* GAME STATE */
   let gameRunning = false;
-  $: gameCompleted = currentChars.length === wordsToChars(words).length;
+  let gameCompleted = false;
 
-  function startTest() {
+  $: if (currentChars.length === wordsToChars(words).length) {
+    endGame();
+  }
+
+  function startGame() {
     gameRunning = true;
     startTime = currentTime();
   }
 
-  function resetTest() {
+  function endGame() {
+    endTime = currentTime();
     gameRunning = false;
+    gameCompleted = true;
+  }
+
+  function resetGame() {
+    gameRunning = false;
+    gameCompleted = false;
     words = generateWords(wordCount);
     currentChars = [];
     typedChars = [];
@@ -46,12 +56,14 @@
   }
 
   $: if (selectedWordCount) {
-    // if we update word count or game completed, restart
-    resetTest();
+    // if we update word count, restart
+    resetGame();
   }
 
   /* TIME */
   let startTime = 0;
+  let endTime = 0;
+  $: duration = endTime - startTime;
 
   /* WPM */
   let wpm = 0;
@@ -71,15 +83,14 @@
 
 <div class="app">
   <div class="content">
-    <Header bind:selectedWordCount reset={resetTest} />
+    <Header bind:selectedWordCount reset={resetGame} />
     <main>
       {#if !gameCompleted}
         <div class="counters">
           {#if !gameRunning}
             <h4>Type to start</h4>
           {:else}
-            <Counter title="curr" count={currentWord.id} />
-            <Counter title="words" count={words.length} />
+            <h4>{currentWord.id}/{words.length}</h4>
             <Counter title="wpm" count={wpm} />
             <Counter title="accuracy" count={accuracy} />
           {/if}
@@ -89,15 +100,21 @@
           bind:currentChars
           bind:typedChars
           bind:gameRunning
-          start={startTest}
-          reset={resetTest}
+          start={startGame}
+          reset={resetGame}
         />
         <Words {words} {currentChars} />
-
-        <Restart reset={resetTest} />
       {:else}
-        <div>Game results</div>
+        <Results
+          words={words.length}
+          {currentChars}
+          {wpm}
+          {accuracy}
+          {duration}
+        />
+        <!-- <Results words={words.length} {wpm} {accuracy}  /> -->
       {/if}
+      <Restart reset={resetGame} />
     </main>
   </div>
 </div>
