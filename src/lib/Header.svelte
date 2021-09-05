@@ -8,7 +8,7 @@
 
 <header>
   <h1 on:click={reset}>
-    <Caret /><span class="svel">Svel</span><span class="type">type</span>
+    <span class="svel">Svel</span><span class="type">type</span>
   </h1>
   <MetricRadio bind:selected={selectedWordCount} />
 </header>

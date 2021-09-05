@@ -31,6 +31,7 @@
     flex-direction: column;
     align-items: center;
     gap: 1em;
+    margin-top: 2.5rem; /* margin to account for counter */
     /* justify-content: left; */
     /* gap: 2rem; */
   }

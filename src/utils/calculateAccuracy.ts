@@ -67,7 +67,10 @@ export function calculateAccuracy(
   // console.log(correct, errors);
 
   const count = currentChars.length;
-  const accuracy = parseInt((100 - (errorCount / count) * 100).toFixed(0));
+  // const accuracy = parseInt((100 - (errorCount / count) * 100).toFixed(0));
+  const accuracy = parseInt(
+    ((currentChars.length / typedChars.length) * 100).toFixed(0)
+  );
   if (accuracy < 0) {
     return 0;
   }

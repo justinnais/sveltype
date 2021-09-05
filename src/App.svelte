@@ -113,7 +113,7 @@
           start={startGame}
           reset={resetGame}
         />
-        <div bind:this={gameRef}><Words {words} {currentChars} /></div>
+        <Words {words} {currentChars} />
       {:else}
         <Results
           words={words.length}
