@@ -78,7 +78,7 @@
           {#if !gameRunning}
             <h4>Type to start</h4>
           {:else}
-            <Counter title="curr" count={currentWord} />
+            <Counter title="curr" count={currentWord.id} />
             <Counter title="words" count={words.length} />
             <Counter title="wpm" count={wpm} />
             <Counter title="accuracy" count={accuracy} />
