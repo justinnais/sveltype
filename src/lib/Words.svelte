@@ -7,7 +7,7 @@
   let space = '&nbsp;';
 </script>
 
-<div class="words-container">
+<div class="words-container" tabindex="0">
   <div class="words">
     {#each words as word}
       <span id={`word-${word.id}`} class="word">

@@ -16,6 +16,7 @@
   import { currentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
+  import { onMount } from 'svelte';
 
   /* WORDS */
   let selectedWordCount: string = '10'; // defualt word count
@@ -30,6 +31,13 @@
   /* GAME STATE */
   let gameRunning = false;
   let gameCompleted = false;
+  let gameRef;
+
+  onMount(() => {
+    console.log('mounted', gameRef);
+  });
+
+  $: console.log('gameRef', gameRef);
 
   $: if (currentChars.length === wordsToChars(words).length) {
     endGame();
@@ -53,6 +61,8 @@
     currentChars = [];
     typedChars = [];
     startTime = 0;
+    // gameRef.focus();
+    // document.getElementById('words-container').focus();
   }
 
   $: if (selectedWordCount) {
@@ -103,7 +113,7 @@
           start={startGame}
           reset={resetGame}
         />
-        <Words {words} {currentChars} />
+        <div bind:this={gameRef}><Words {words} {currentChars} /></div>
       {:else}
         <Results
           words={words.length}
