@@ -4,9 +4,17 @@
   import { TooltipIcon } from 'carbon-components-svelte';
 
   export let reset: () => void;
+  
+  let buttonRef;
+
+  function handleClick() {
+    // unfocus the button to prevent reseting on space
+    buttonRef.blur()
+    reset()
+  }
 </script>
 
-<button on:click={reset} class="bx--btn" tabindex="0">Restart </button>
+<button bind:this={buttonRef} on:click={handleClick} class="bx--btn" tabindex="1">Restart</button>
 <style>
   button {
     align-self: center;

@@ -31,13 +31,7 @@
   /* GAME STATE */
   let gameRunning = false;
   let gameCompleted = false;
-  let gameRef;
 
-  onMount(() => {
-    console.log('mounted', gameRef);
-  });
-
-  $: console.log('gameRef', gameRef);
 
   $: if (currentChars.length === wordsToChars(words).length) {
     endGame();
@@ -61,8 +55,6 @@
     currentChars = [];
     typedChars = [];
     startTime = 0;
-    // gameRef.focus();
-    // document.getElementById('words-container').focus();
   }
 
   $: if (selectedWordCount) {
