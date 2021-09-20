@@ -1,12 +1,22 @@
 <script lang="ts">
+  import type { IWord } from 'src/types/types';
+
   // https://svelte.dev/tutorial/svelte-window
   // https://svelte.dev/tutorial/updating-arrays-and-objects
   let key: string;
   export let currentChars: string[] = [];
   export let typedChars: string[] = [];
   export let gameRunning: boolean;
+  export let errors: number;
+  export let words: IWord[];
   export let start: () => void;
   export let reset: () => void;
+
+  // flatten words into character array
+  const correctChars = words
+    .map((word) => word.characters)
+    .flat()
+    .map((char) => char.char);
 
   function handleKeypress(event: { key: string; preventDefault: () => void }) {
     key = event.key;
@@ -43,7 +53,7 @@
     event.preventDefault();
     const restartButton = document.getElementById('restart-button');
     const isFocused = document.activeElement === restartButton;
-    isFocused ? restartButton.blur() : restartButton.focus()
+    isFocused ? restartButton.blur() : restartButton.focus();
   }
 
   function handleBackspace(key: string) {
@@ -55,6 +65,14 @@
     if (isChar) {
       currentChars.push(key);
       typedChars.push(key);
+      
+      checkIfError(key, correctChars[currentChars.length - 1]);
+    }
+  }
+
+  function checkIfError(typed: string, correct: string) {
+    if (typed !== correct) {
+      errors += 1;
     }
   }
 </script>
