@@ -26,9 +26,6 @@
     min-height: 10rem;
     overflow: hidden;
   }
-  /* .words-container:focus {
-    border: 1px red solid;
-  } */
   .words {
     font-family: monospace;
     font-size: 1.5rem;

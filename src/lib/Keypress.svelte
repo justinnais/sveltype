@@ -41,7 +41,9 @@
   function handleTab(event: { key?: string; preventDefault: any }) {
     // I could use the button ref but that would require some prop drilling I want to avoid
     event.preventDefault();
-    document.getElementById('restart-button').focus();
+    const restartButton = document.getElementById('restart-button');
+    const isFocused = document.activeElement === restartButton;
+    isFocused ? restartButton.blur() : restartButton.focus()
   }
 
   function handleBackspace(key: string) {
