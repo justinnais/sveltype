@@ -1,22 +1,18 @@
 <script lang="ts">
-  import Counter from './lib/Counter.svelte';
-  import Header from './lib/Header.svelte';
   import 'carbon-components-svelte/css/g100.css';
+
+  import Header from './lib/Header.svelte';
   import Words from './lib/Words.svelte';
   import Keypress from './lib/Keypress.svelte';
-  import WordCountRadio from './lib/MetricRadio.svelte';
-  import { generateWords } from './utils/generate';
-  import { wordsToChars } from './utils/wordsToChars';
-  import { Button } from 'carbon-components-svelte';
-  import { calculateAccuracy } from './utils/calculateAccuracy';
-  import Timer from './lib/Timer.svelte';
-  import Accuracy from './lib/Accuracy.svelte';
   import Restart from './lib/Restart.svelte';
   import Results from './lib/Results.svelte';
+
+  import { generateWords } from './utils/generate';
+  import { wordsToChars } from './utils/wordsToChars';
+  import { calculateAccuracy } from './utils/calculateAccuracy';
   import { currentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
-  import { onMount } from 'svelte';
 
   /* WORDS */
   let selectedWordCount: string = '10'; // defualt word count
@@ -75,7 +71,8 @@
 
   /* ACCURACY */
   let accuracy = 0;
-  $: accuracy = calculateAccuracy(currentChars, typedChars, words);
+  let errors = 0;
+  $: accuracy = calculateAccuracy(currentChars, errors);
 
   /* RESULTS */
   $: correct =
@@ -93,8 +90,9 @@
           {:else}
             <!-- TODO bug here with array going to zero - eg type then backspace to zero -->
             <h4>{currentWord.id}/{words.length}</h4>
-            <Counter title="wpm" count={wpm} />
-            <Counter title="accuracy" count={accuracy} />
+            <h4>{wpm} wpm</h4>
+            <h4>{accuracy}% acc</h4>
+            <!-- <h4>{errors} err</h4> -->
           {/if}
         </div>
         <!-- <Timer {startTime} {gameRunning} /> -->
@@ -104,6 +102,8 @@
           bind:gameRunning
           start={startGame}
           reset={resetGame}
+          {words}
+          bind:errors
         />
         <Words {words} {currentChars} />
       {:else}
@@ -112,9 +112,9 @@
           {currentChars}
           {wpm}
           {accuracy}
+          {errors}
           {duration}
         />
-        <!-- <Results words={words.length} {wpm} {accuracy}  /> -->
       {/if}
       <Restart reset={resetGame} />
     </main>

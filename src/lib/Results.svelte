@@ -1,11 +1,9 @@
 <script lang="ts">
-  import { wordsToChars } from '../utils/wordsToChars';
-
-  import Counter from './Counter.svelte';
   export let words;
   export let currentChars;
   export let wpm;
   export let accuracy;
+  export let errors;
   export let duration: number;
   let seconds = (duration / 1000).toFixed(2);
 </script>
@@ -17,9 +15,10 @@
   </div>
 
   <div class="small-stats">
-    <Counter count={seconds} title="seconds" />
-    <Counter count={words} title="words" />
-    <Counter count={currentChars.length} title="characters" />
+    <h4>{seconds} seconds</h4>
+    <h4>{words} words</h4>
+    <h4>{currentChars.length} characters</h4>
+    <h4>{errors} errors</h4>
   </div>
 </div>
 
