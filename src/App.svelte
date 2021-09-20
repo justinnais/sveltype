@@ -10,7 +10,7 @@
   import { generateWords } from './utils/generate';
   import { wordsToChars } from './utils/wordsToChars';
   import { calculateAccuracy } from './utils/calculateAccuracy';
-  import { currentTime } from './utils/timeLogic';
+  import { getCurrentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
 
@@ -34,22 +34,27 @@
 
   function startGame() {
     gameRunning = true;
-    startTime = currentTime();
+    startTime = getCurrentTime();
+    timerCycle();
   }
 
   function endGame() {
-    endTime = currentTime();
+    endTime = getCurrentTime();
+    stopTimer();
     gameRunning = false;
     gameCompleted = true;
   }
 
   function resetGame() {
+    // TODO fix words, accuracy and errors not resetings correctly
     gameRunning = false;
     gameCompleted = false;
     words = generateWords(wordCount);
     currentChars = [];
     typedChars = [];
     startTime = 0;
+    elapsedSeconds = 0;
+    stopTimer()
   }
 
   $: if (selectedWordCount) {
@@ -61,6 +66,23 @@
   let startTime = 0;
   let endTime = 0;
   $: duration = endTime - startTime;
+  let elapsedSeconds = 0;
+
+  let handleTimeout;
+
+  function timerCycle() {
+    handleTimeout = setTimeout(incrementTime, 1000);
+  }
+
+  function stopTimer() {
+    clearTimeout(handleTimeout);
+  }
+
+  function incrementTime() {
+    elapsedSeconds += 1;
+    console.log('elapsed', elapsedSeconds);
+    timerCycle()
+  }
 
   /* WPM */
   let wpm = 0;
@@ -73,7 +95,6 @@
   let accuracy = 0;
   let errors = 0;
   $: accuracy = calculateAccuracy(currentChars, errors);
-
 </script>
 
 <div class="app">
@@ -89,6 +110,7 @@
             <h4>{currentWord.id}/{words.length}</h4>
             <h4>{wpm} wpm</h4>
             <h4>{accuracy}% acc</h4>
+            <h4>{elapsedSeconds} seconds</h4>
           {/if}
         </div>
         <!-- <Timer {startTime} {gameRunning} /> -->

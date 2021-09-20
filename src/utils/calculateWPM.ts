@@ -1,5 +1,5 @@
 import type { IWord } from 'src/types/types';
-import { currentTime } from './timeLogic';
+import { getCurrentTime } from './timeLogic';
 
 export function calculateWPM(
   words: IWord[],
@@ -12,7 +12,7 @@ export function calculateWPM(
     .flat()
     .map((char) => char.char).length;
   const averageWordLength = characterCount / wordCount;
-  const duration = (currentTime() - startTime) / 60000;
+  const duration = (getCurrentTime() - startTime) / 60000;
 
   const wpm = parseInt(
     (currentChars.length / averageWordLength / duration).toFixed(2)
