@@ -74,9 +74,6 @@
   let errors = 0;
   $: accuracy = calculateAccuracy(currentChars, errors);
 
-  /* RESULTS */
-  $: correct =
-    JSON.stringify(currentChars) === JSON.stringify(wordsToChars(words));
 </script>
 
 <div class="app">
@@ -92,7 +89,6 @@
             <h4>{currentWord.id}/{words.length}</h4>
             <h4>{wpm} wpm</h4>
             <h4>{accuracy}% acc</h4>
-            <!-- <h4>{errors} err</h4> -->
           {/if}
         </div>
         <!-- <Timer {startTime} {gameRunning} /> -->

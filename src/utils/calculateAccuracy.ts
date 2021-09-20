@@ -1,6 +1,3 @@
-import type { IWord } from 'src/types/types';
-import { wordsToChars } from './wordsToChars';
-
 export function calculateAccuracy(
   currentChars: string[],
   errors: number

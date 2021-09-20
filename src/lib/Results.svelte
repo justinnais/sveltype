@@ -18,7 +18,7 @@
     <h4>{seconds} seconds</h4>
     <h4>{words} words</h4>
     <h4>{currentChars.length} characters</h4>
-    <h4>{errors} errors</h4>
+    <h4>{errors} error{errors === 1 ? '' : 's'}</h4>
   </div>
 </div>
 
