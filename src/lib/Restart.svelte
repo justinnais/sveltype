@@ -4,7 +4,6 @@
   import { TooltipIcon } from 'carbon-components-svelte';
 
   export let reset: () => void;
-  
   let buttonRef;
 
   function handleClick() {
@@ -14,7 +13,7 @@
   }
 </script>
 
-<button bind:this={buttonRef} on:click={handleClick} class="bx--btn" tabindex="1">Restart</button>
+<button bind:this={buttonRef} on:click={handleClick} class="bx--btn" id='restart-button'>Restart</button>
 <style>
   button {
     align-self: center;

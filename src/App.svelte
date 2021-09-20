@@ -32,7 +32,6 @@
   let gameRunning = false;
   let gameCompleted = false;
 
-
   $: if (currentChars.length === wordsToChars(words).length) {
     endGame();
   }
@@ -92,6 +91,7 @@
           {#if !gameRunning}
             <h4>Type to start</h4>
           {:else}
+            <!-- TODO bug here with array going to zero - eg type then backspace to zero -->
             <h4>{currentWord.id}/{words.length}</h4>
             <Counter title="wpm" count={wpm} />
             <Counter title="accuracy" count={accuracy} />
