@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fly, fade, crossfade } from 'svelte/transition';
   import { wordsToChars } from '../utils/wordsToChars';
   import Caret from './Caret.svelte';
 
@@ -9,31 +10,36 @@
   $: touched = currentChars.length > id;
   $: isCorrect = wordsToChars(words)[id].char === currentChars[id];
   $: showCaret = currentChars.length === id;
+
+  // caret animation
+  const duration = 200;
+  const x = 15; // width of letter element
+  const opacity = 0;
+
+  // TODO calculate the duration based on users WPM
+  // TODO adjusted x direction if backspace
 </script>
 
+{#if showCaret}
+  <div out:fly={{ x, duration, opacity }} in:fly={{ x: -x, duration, opacity }}>
+    <Caret />
+  </div>
+{/if}
 <span
   id={`char-${id}`}
   class="letter"
-  class:showCaret
   class:incorrect={touched && !isCorrect}
   class:correct={touched && isCorrect}
 >
-  {#if showCaret}
-    <Caret />
-  {/if}
   <slot />
 </span>
 
 <style>
   .letter {
     /* padding left size of caret width */
-    padding: 0 2px;
+    padding: 0 1px;
     display: inline-flex;
     color: grey;
-  }
-  .showCaret {
-    /* if showing the caret, get rid of padding so letters do not shift around  */
-    padding-left: 0;
   }
   .correct {
     color: white;
