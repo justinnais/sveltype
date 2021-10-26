@@ -6,6 +6,7 @@
   import Keypress from './lib/Keypress.svelte';
   import Restart from './lib/Restart.svelte';
   import Results from './lib/Results.svelte';
+  import Counters from './lib/Counters.svelte';
 
   import { generateWords } from './utils/generate';
   import { wordsToChars } from './utils/wordsToChars';
@@ -25,7 +26,7 @@
   let typedChars: string[] = []; // typed chars is all characters typed including errors
 
   /* GAME STATE */
-  let gameRunning = false;
+  $: gameRunning = false;
   let gameCompleted = false;
 
   $: if (currentChars.length === wordsToChars(words).length) {
@@ -54,7 +55,7 @@
     typedChars = [];
     startTime = 0;
     elapsedSeconds = 0;
-    stopTimer()
+    stopTimer();
   }
 
   $: if (selectedWordCount) {
@@ -81,7 +82,7 @@
   function incrementTime() {
     elapsedSeconds += 1;
     console.log('elapsed', elapsedSeconds);
-    timerCycle()
+    timerCycle();
   }
 
   /* WPM */
@@ -101,39 +102,38 @@
   <div class="content">
     <Header bind:selectedWordCount reset={resetGame} />
     <main>
-      {#if !gameCompleted}
-        <div class="counters">
-          {#if !gameRunning}
-            <h4>Type to start</h4>
-          {:else}
-            <!-- TODO bug here with array going to zero - eg type then backspace to zero -->
-            <h4>{currentWord.id}/{words.length}</h4>
-            <h4>{wpm} wpm</h4>
-            <h4>{accuracy}% acc</h4>
-            <h4>{elapsedSeconds} seconds</h4>
-          {/if}
-        </div>
-        <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress
-          bind:currentChars
-          bind:typedChars
-          bind:gameRunning
-          start={startGame}
-          reset={resetGame}
-          {words}
-          bind:errors
-        />
-        <Words {words} {currentChars} />
-      {:else}
-        <Results
-          words={words.length}
-          {currentChars}
-          {wpm}
-          {accuracy}
-          {errors}
-          {duration}
-        />
-      {/if}
+      <div class="transition-force">
+        {#if !gameCompleted}
+          <Counters
+            {gameRunning}
+            {currentWord}
+            {words}
+            {wpm}
+            {accuracy}
+            {elapsedSeconds}
+          />
+          <!-- <Timer {startTime} {gameRunning} /> -->
+          <Keypress
+            bind:currentChars
+            bind:typedChars
+            bind:gameRunning
+            start={startGame}
+            reset={resetGame}
+            {words}
+            bind:errors
+          />
+          <Words {words} {currentChars} />
+        {:else}
+          <Results
+            words={words.length}
+            {currentChars}
+            {wpm}
+            {accuracy}
+            {errors}
+            {duration}
+          />
+        {/if}
+      </div>
       <Restart reset={resetGame} />
     </main>
   </div>
@@ -170,9 +170,11 @@
     gap: 1rem;
   }
 
-  .counters {
-    display: flex;
-    justify-content: left;
-    gap: 2rem;
+  .transition-force {
+    display: grid;
+  }
+  .transition-force > * {
+    grid-column: 1/2;
+    grid-row: 1/2;
   }
 </style>

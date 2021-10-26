@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fly, fade, crossfade } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import { wordsToChars } from '../utils/wordsToChars';
   import Caret from './Caret.svelte';
 
@@ -14,14 +14,13 @@
   // caret animation
   const duration = 200;
   const x = 15; // width of letter element
-  const opacity = 0;
 
   // TODO calculate the duration based on users WPM
   // TODO adjusted x direction if backspace
 </script>
 
 {#if showCaret}
-  <div out:fly={{ x, duration, opacity }} in:fly={{ x: -x, duration, opacity }}>
+  <div out:fly={{ x, duration }} in:fly={{ x: -x, duration }}>
     <Caret />
   </div>
 {/if}

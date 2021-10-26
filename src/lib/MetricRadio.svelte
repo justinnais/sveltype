@@ -1,4 +1,5 @@
 <script>
+  import { fade } from 'svelte/transition';
   import { RadioButtonGroup, RadioButton } from 'carbon-components-svelte';
   export let selected;
   // TODO add time based option
@@ -11,7 +12,7 @@
     <span>/</span> -->
     <span>Words</span>
   </div>
-  <RadioButtonGroup bind:selected>
+  <RadioButtonGroup bind:selected >
     <RadioButton labelText="10" value="10" />
     <RadioButton labelText="30" value="30" />
     <RadioButton labelText="60" value="60" />
