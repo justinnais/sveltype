@@ -9,7 +9,8 @@
   let seconds = (duration / 1000).toFixed(2);
 </script>
 
-<div class="result-container" in:fly={{y:20, duration:1000}}>
+<div class="transition-force">
+<div class="result-container" in:fly={{y:20, duration:2000}}>
   <div class="big-stats">
     <h2>{wpm} wpm</h2>
     <h2>{accuracy}% accuracy</h2>
@@ -22,6 +23,8 @@
     <h4>{errors} error{errors === 1 ? '' : 's'}</h4>
   </div>
 </div>
+</div>
+
 
 <style>
   .result-container {
