@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   import Letter from '../lib/Letter.svelte';
   import type { IWord } from '../types/types';
 
@@ -7,7 +8,8 @@
   let space = '&nbsp;';
 </script>
 
-<div class="words-container">
+{#key words}
+<div class="words-container" in:fly={{y:20, duration:1000}}>
   <div class="words">
     {#each words as word}
       <span id={`word-${word.id}`} class="word">
@@ -20,6 +22,8 @@
     {/each}
   </div>
 </div>
+{/key}
+
 
 <style>
   .words-container {

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fly } from 'svelte/transition';
   export let words;
   export let currentChars;
   export let wpm;
@@ -8,7 +9,7 @@
   let seconds = (duration / 1000).toFixed(2);
 </script>
 
-<div class="result-container">
+<div class="result-container" in:fly={{y:20, duration:1000}}>
   <div class="big-stats">
     <h2>{wpm} wpm</h2>
     <h2>{accuracy}% accuracy</h2>
