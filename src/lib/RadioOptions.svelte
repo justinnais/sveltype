@@ -31,12 +31,14 @@
     transition: 0.4s;
     cursor: pointer;
   }
-  .option:hover {
-    opacity: 100%;
-  }
   .active {
     opacity: 100%;
-
-    /* color: #ff3e00; */
+  }
+  /* adjust the opacity of siblings when hovering an option */
+  .root:hover .option {
+    opacity: 50%;
+  }
+  .root .option:hover {
+    opacity: 100%;
   }
 </style>
