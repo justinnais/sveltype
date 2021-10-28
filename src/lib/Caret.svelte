@@ -2,6 +2,8 @@
 
 <style>
   .caret {
+    position: absolute;
+    transform: translateX(-1px);
     display: inline-flex;
     height: 1em;
     width: 2px;

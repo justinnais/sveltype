@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fly, fade } from 'svelte/transition';
   import Letter from '../lib/Letter.svelte';
   import type { IWord } from '../types/types';
 
@@ -7,18 +8,27 @@
   let space = '&nbsp;';
 </script>
 
-<div class="words-container">
-  <div class="words">
-    {#each words as word}
-      <span id={`word-${word.id}`} class="word">
-        {#each word.characters as char}
-          <Letter id={char.id} {currentChars} {words}
-            >{@html char.char === ' ' ? space : char.char}</Letter
-          >
+<!-- this div is needed to workaround Svelte bug https://github.com/sveltejs/svelte/issues/544 -->
+<div class="transition-force">
+  {#key words}
+    <div
+      class="words-container"
+      in:fly={{ y: 20, duration: 500 }}
+      out:fly={{y:-20, duration: 250 }}
+    >
+      <div class="words">
+        {#each words as word}
+          <span id={`word-${word.id}`} class="word">
+            {#each word.characters as char}
+              <Letter id={char.id} {currentChars} {words}
+                >{@html char.char === ' ' ? space : char.char}</Letter
+              >
+            {/each}
+          </span>
         {/each}
-      </span>
-    {/each}
-  </div>
+      </div>
+    </div>
+  {/key}
 </div>
 
 <style>
@@ -36,5 +46,12 @@
   .word {
     display: flex;
     margin-bottom: 0.4rem;
+  }
+  .transition-force {
+    display: grid;
+  }
+  .transition-force > * {
+    grid-column: 1/2;
+    grid-row: 1/2;
   }
 </style>
