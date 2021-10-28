@@ -1,6 +1,6 @@
 <script lang="ts">
   import 'carbon-components-svelte/css/g100.css';
-  import { fly, fade } from 'svelte/transition'
+  import { fly, fade } from 'svelte/transition';
 
   import Header from './lib/Header.svelte';
   import Words from './lib/Words.svelte';
@@ -17,9 +17,7 @@
   import { getCurrentWord } from './utils/getCurrentWord';
 
   /* WORDS */
-  let selectedWordCount: string = '10'; // defualt word count
-  $: wordCount = parseInt(selectedWordCount);
-  $: words = generateWords(wordCount); // list of generated words
+  $: words = generateWords(metricValue); // list of generated words
   $: currentWord = getCurrentWord(words, currentChars);
 
   /* CHARS */
@@ -29,6 +27,9 @@
   /* GAME STATE */
   $: gameRunning = false;
   let gameCompleted = false;
+  type gameOptions = 'Time' | 'Words';
+  let gameMetric: gameOptions = 'Words';
+  let metricValue: number = 15;
 
   $: if (currentChars.length === wordsToChars(words).length) {
     endGame();
@@ -51,7 +52,7 @@
     // TODO fix words, accuracy and errors not resetings correctly
     gameRunning = false;
     gameCompleted = false;
-    words = generateWords(wordCount);
+    words = generateWords(metricValue);
     currentChars = [];
     typedChars = [];
     startTime = 0;
@@ -59,7 +60,7 @@
     stopTimer();
   }
 
-  $: if (selectedWordCount) {
+  $: if (metricValue) {
     // if we update word count, restart
     resetGame();
   }
@@ -70,7 +71,7 @@
   $: duration = endTime - startTime;
   let elapsedSeconds = 0;
 
-  let handleTimeout;
+  let handleTimeout: NodeJS.Timeout;
 
   function timerCycle() {
     handleTimeout = setTimeout(incrementTime, 1000);
@@ -101,11 +102,12 @@
 
 <div class="app">
   <div class="content">
-    <Header bind:selectedWordCount reset={resetGame} />
+    <Header bind:metricValue bind:gameMetric reset={resetGame} />
     <main>
       <div class="transition-force">
         {#if !gameCompleted}
-          <div out:fly={{y:-20, duration: 250 }} in:fade={{ duration: 500}}> <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
+          <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
+            <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
             <Counters
               {gameRunning}
               {currentWord}

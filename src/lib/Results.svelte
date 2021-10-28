@@ -1,5 +1,6 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
+
   export let words;
   export let currentChars;
   export let wpm;
@@ -10,21 +11,24 @@
 </script>
 
 <div class="transition-force">
-<div class="result-container" in:fly={{y:20, duration:1000}}>
-  <div class="big-stats">
-    <h2>{wpm} wpm</h2>
-    <h2>{accuracy}% accuracy</h2>
-  </div>
+  <div
+    class="result-container"
+    in:fly={{ y: 20, duration: 500 }}
+    out:fly={{ y: -20, duration: 250 }}
+  >
+    <div class="big-stats">
+      <h2>{wpm} wpm</h2>
+      <h2>{accuracy}% accuracy</h2>
+    </div>
 
-  <div class="small-stats">
-    <h4>{seconds} seconds</h4>
-    <h4>{words} words</h4>
-    <h4>{currentChars.length} characters</h4>
-    <h4>{errors} error{errors === 1 ? '' : 's'}</h4>
+    <div class="small-stats">
+      <h4>{seconds} seconds</h4>
+      <h4>{words} words</h4>
+      <h4>{currentChars.length} characters</h4>
+      <h4>{errors} error{errors === 1 ? '' : 's'}</h4>
+    </div>
   </div>
 </div>
-</div>
-
 
 <style>
   .result-container {

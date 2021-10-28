@@ -38,10 +38,12 @@
     /* padding left size of caret width */
     padding: 0 1px;
     display: inline-flex;
-    color: grey;
+    /* color: grey; */
+    opacity: 50%;
   }
   .correct {
-    color: white;
+    /* color: white; */
+    opacity: 100%;
   }
   .incorrect {
     background-color: rgb(160, 67, 67);
