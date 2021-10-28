@@ -24,7 +24,7 @@
   }
 
   button:hover, button:focus {
-    transform: scale(1.05);
+  transform: translate(2px, -2px);
     background-color: rgb(208, 52, 0);
   }
 </style>

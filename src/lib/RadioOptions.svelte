@@ -1,11 +1,9 @@
 <script lang="ts">
-  // your script goes here
+  export let options: (string | number)[];
+  export let active: string | number;
 
-  export let options: string[];
-  export let active: string;
-
-  function handleClick(option: string) {
-    console.log('handleClick', option);
+  function handleClick(option: string | number) {
+    active = option;
   }
 </script>
 
@@ -28,7 +26,7 @@
   }
   .option {
     opacity: 50%;
-    transition: 0.4s;
+    transition: 0.25s;
     cursor: pointer;
   }
   .active {
@@ -40,5 +38,6 @@
   }
   .root .option:hover {
     opacity: 100%;
+    transform: translate(1px, -1px);
   }
 </style>
