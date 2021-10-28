@@ -1,5 +1,6 @@
 <script lang="ts">
   import 'carbon-components-svelte/css/g100.css';
+  import { fly, fade } from 'svelte/transition'
 
   import Header from './lib/Header.svelte';
   import Words from './lib/Words.svelte';
@@ -104,34 +105,38 @@
     <main>
       <div class="transition-force">
         {#if !gameCompleted}
-          <Counters
-            {gameRunning}
-            {currentWord}
-            {words}
-            {wpm}
-            {accuracy}
-            {elapsedSeconds}
-          />
-          <!-- <Timer {startTime} {gameRunning} /> -->
-          <Keypress
-            bind:currentChars
-            bind:typedChars
-            bind:gameRunning
-            start={startGame}
-            reset={resetGame}
-            {words}
-            bind:errors
-          />
-          <Words {words} {currentChars} />
+          <div out:fly={{y:-20, duration: 250 }} in:fade={{ duration: 500}}> <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
+            <Counters
+              {gameRunning}
+              {currentWord}
+              {words}
+              {wpm}
+              {accuracy}
+              {elapsedSeconds}
+            />
+            <!-- <Timer {startTime} {gameRunning} /> -->
+            <Keypress
+              bind:currentChars
+              bind:typedChars
+              bind:gameRunning
+              start={startGame}
+              reset={resetGame}
+              {words}
+              bind:errors
+            />
+            <Words {words} {currentChars} />
+          </div>
         {:else}
-          <Results
-            words={words.length}
-            {currentChars}
-            {wpm}
-            {accuracy}
-            {errors}
-            {duration}
-          />
+          <div>
+            <Results
+              words={words.length}
+              {currentChars}
+              {wpm}
+              {accuracy}
+              {errors}
+              {duration}
+            />
+          </div>
         {/if}
       </div>
       <Restart reset={resetGame} />
