@@ -1,8 +1,8 @@
 <script lang="ts">
   import Caret from './Caret.svelte';
   import MetricRadio from './MetricRadio.svelte';
-
-  export let selectedWordCount;
+  import RadioOptions from './RadioOptions.svelte'
+  // export let selectedWordCount;
   export let reset: () => void;
 </script>
 
@@ -10,7 +10,9 @@
   <h1 on:click={reset}>
     <span class="svel">Svel</span><span class="type">type</span>
   </h1>
-  <MetricRadio bind:selected={selectedWordCount} />
+  <RadioOptions options={['Time', 'Words']} active={'Words'} />
+  <RadioOptions options={['15', '30', '60']} active={'15'}/>
+  <!-- <MetricRadio bind:selected={selectedWordCount} /> -->
 </header>
 
 <style>
