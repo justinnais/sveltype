@@ -15,9 +15,11 @@
   import { getCurrentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
+import Timer from './lib/Timer.svelte';
 
   /* WORDS */
-  $: words = generateWords(metricValue); // list of generated words
+  // TODO handle infite words for timed games
+  $: words = generateWords(gameMetric === 'Words' ? metricValue : 60); // list of generated words
   $: currentWord = getCurrentWord(words, currentChars);
 
   /* CHARS */
@@ -68,8 +70,10 @@
   /* TIME */
   let startTime = 0;
   let endTime = 0;
+  let testLength = metricValue;
   $: duration = endTime - startTime;
-  let elapsedSeconds = 0;
+  $: elapsedSeconds = 0;
+  $: secondsRemaining = testLength - elapsedSeconds
 
   let handleTimeout: NodeJS.Timeout;
 
@@ -83,8 +87,11 @@
 
   function incrementTime() {
     elapsedSeconds += 1;
-    console.log('elapsed', elapsedSeconds);
     timerCycle();
+  }
+
+  $: if (gameMetric === 'Time' && secondsRemaining <= 0) {
+    endGame();
   }
 
   /* WPM */
@@ -108,15 +115,18 @@
         {#if !gameCompleted}
           <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
             <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
+            <!-- TODO add spread props for this -->
             <Counters
+              {gameMetric}
               {gameRunning}
               {currentWord}
               {words}
               {wpm}
               {accuracy}
               {elapsedSeconds}
+              {secondsRemaining}
             />
-            <!-- <Timer {startTime} {gameRunning} /> -->
+            <!-- <Timer {startTime} {elapsedSeconds}/> -->
             <Keypress
               bind:currentChars
               bind:typedChars
