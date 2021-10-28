@@ -26,5 +26,7 @@
     display: flex;
     justify-content: left;
     gap: 2rem;
+    margin-bottom: 1em;
   }
+  
 </style>
