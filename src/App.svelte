@@ -15,7 +15,7 @@
   import { getCurrentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
-import Timer from './lib/Timer.svelte';
+  import Timer from './lib/Timer.svelte';
 
   /* WORDS */
   // TODO handle infite words for timed games
@@ -73,7 +73,7 @@ import Timer from './lib/Timer.svelte';
   let testLength = metricValue;
   $: duration = endTime - startTime;
   $: elapsedSeconds = 0;
-  $: secondsRemaining = testLength - elapsedSeconds
+  $: secondsRemaining = testLength - elapsedSeconds;
 
   let handleTimeout: NodeJS.Timeout;
 
@@ -105,6 +105,27 @@ import Timer from './lib/Timer.svelte';
   let accuracy = 0;
   let errors = 0;
   $: accuracy = calculateAccuracy(currentChars, errors);
+
+  /* PROPS OBJECTS */
+  $: counterProps = {
+    gameMetric,
+    gameRunning,
+    currentWord,
+    words,
+    wpm,
+    accuracy,
+    elapsedSeconds,
+    secondsRemaining,
+  };
+
+  $: resultsProps = {
+    words: words.length,
+    currentChars,
+    wpm,
+    accuracy,
+    errors,
+    duration,
+  };
 </script>
 
 <div class="app">
@@ -115,18 +136,7 @@ import Timer from './lib/Timer.svelte';
         {#if !gameCompleted}
           <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
             <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
-            <!-- TODO add spread props for this -->
-            <Counters
-              {gameMetric}
-              {gameRunning}
-              {currentWord}
-              {words}
-              {wpm}
-              {accuracy}
-              {elapsedSeconds}
-              {secondsRemaining}
-            />
-            <!-- <Timer {startTime} {elapsedSeconds}/> -->
+            <Counters {...counterProps} />
             <Keypress
               bind:currentChars
               bind:typedChars
@@ -140,14 +150,7 @@ import Timer from './lib/Timer.svelte';
           </div>
         {:else}
           <div>
-            <Results
-              words={words.length}
-              {currentChars}
-              {wpm}
-              {accuracy}
-              {errors}
-              {duration}
-            />
+            <Results {...resultsProps} />
           </div>
         {/if}
       </div>
