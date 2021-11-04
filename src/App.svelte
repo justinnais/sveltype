@@ -15,7 +15,6 @@
   import { getCurrentTime } from './utils/timeLogic';
   import { calculateWPM } from './utils/calculateWPM';
   import { getCurrentWord } from './utils/getCurrentWord';
-  import Timer from './lib/Timer.svelte';
 
   /* WORDS */
   // TODO handle infite words for timed games
