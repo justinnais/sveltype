@@ -33,7 +33,7 @@
 
 <style>
   .words-container {
-    min-height: 10rem;
+    height: calc((1.5rem + 0.4rem) * 3); /* 3 lines worth + bottom margins */
     overflow: hidden;
   }
   .words {
