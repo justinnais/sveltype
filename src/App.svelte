@@ -19,21 +19,27 @@
 
   /* WORDS */
   // TODO handle infite words for timed games
-  $: words = generateWords(gameMetric === 'Words' ? metricValue : 60); // list of generated words
+  $: words = generateWords(defaultWordCount); // list of generated words
   $: currentWord = getCurrentWord(words, currentChars);
+  $: defaultWordCount = gameMetric === 'Words' ? metricValue : 60;
 
   /* CHARS */
   let currentChars: string[] = []; // array of corrected characters, used to get caret position
   let typedChars: string[] = []; // typed chars is all characters typed including errors
 
   /* GAME STATE */
+  /* Default state */
   $: gameRunning = false;
   let gameCompleted = false;
   type gameOptions = 'Time' | 'Words';
   let gameMetric: gameOptions = 'Words';
   let metricValue: number = 15;
 
-  $: if (currentChars.length === wordsToChars(words).length) {
+  /* If the user reaches end of the sentence, or runs out of time - end the game */
+  $: if (
+    currentChars.length === wordsToChars(words).length ||
+    (gameMetric === 'Time' && secondsRemaining <= 0)
+  ) {
     endGame();
   }
 
@@ -54,7 +60,7 @@
     // TODO fix words, accuracy and errors not resetings correctly
     gameRunning = false;
     gameCompleted = false;
-    words = generateWords(metricValue);
+    words = generateWords(defaultWordCount);
     currentChars = [];
     typedChars = [];
     startTime = 0;
@@ -88,10 +94,6 @@
   function incrementTime() {
     elapsedSeconds += 1;
     timerCycle();
-  }
-
-  $: if (gameMetric === 'Time' && secondsRemaining <= 0) {
-    endGame();
   }
 
   /* WPM */
