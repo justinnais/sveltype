@@ -3,6 +3,7 @@ export interface IWord {
   characters: IChar[];
   id: number;
   clientWidth?: number;
+  line?: number;
 }
 
 export interface IChar {

@@ -20,7 +20,7 @@ export function generateWords(count: number) {
       characters.push({ char, id });
     });
 
-    wordsArr[id] = { word, characters, id };
+    wordsArr[id] = { word, characters, id, line: 0 };
   }
   return wordsArr;
 }

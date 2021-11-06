@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { afterUpdate, beforeUpdate, onMount } from 'svelte';
 
   import { fly, fade } from 'svelte/transition';
   import Letter from '../lib/Letter.svelte';
@@ -12,15 +12,51 @@
   let containerWidth;
 
   let lines = 0;
+  let totalWidth = 0;
 
-  onMount(() => {
+  function calculateWordWidth(id: number) {
+    const element = document.getElementById(`word-${id}`);
+    const width = element.getBoundingClientRect().width;
+
+    return width;
+  }
+
+  function calculateLineNumber(id: number) {
+    // set the line value to be the previous words line value
+    words[id].line = id === 0 ? 0 : words[id - 1].line;
+
+    // if the word breaks the line, increase line value
+    if (totalWidth + words[id].clientWidth > containerWidth) {
+      words[id].line += 1;
+    }
+  }
+
+  function addWordProperties() {
     /* Calculate the width of each word in order to work out which line it is on */
     words.forEach((word) => {
-      const element = document.getElementById(`word-${word.id}`);
-      const width = element.getBoundingClientRect().width; 
+      const width = calculateWordWidth(word.id);
       words[word.id].clientWidth = width;
+      calculateLineNumber(word.id);
+
+      if (totalWidth + width > containerWidth) {
+        totalWidth = 0;
+      } else {
+        totalWidth += width;
+      }
     });
+    console.log('words', words);
+
+    console.log('total', totalWidth);
+  }
+
+  onMount(() => {
+    addWordProperties();
   });
+
+  // need to update line numbers when client width changes, but this causes animations to retrigger for each pixel change
+  // afterUpdate(() => {
+  //   addWordProperties();
+  // });
 </script>
 
 <!-- this div is needed to workaround Svelte bug https://github.com/sveltejs/svelte/issues/544 -->
@@ -32,10 +68,9 @@
       in:fly={{ y: 20, duration: 500 }}
       out:fly={{ y: -20, duration: 250 }}
     >
-      <span>{containerWidth}</span>
       <div class="words">
         {#each words as word (word.id)}
-          <span id={`word-${word.id}`} class="word">
+          <span id={`word-${word.id}`} class="word" class:line-0={word.line === 0} class:line-1={word.line === 1} class:line-2={word.line === 2}>
             {#each word.characters as char (char.id)}
               <Letter id={char.id} {currentChars} {words}
                 >{@html char.char === ' ' ? space : char.char}</Letter
@@ -76,5 +111,15 @@
   .transition-force > * {
     grid-column: 1/2;
     grid-row: 1/2;
+  }
+
+  .line-0 {
+    background-color: green;
+  }
+  .line-1 {
+    background-color: blue;
+  }
+  .line-2 {
+    background-color: red;
   }
 </style>
