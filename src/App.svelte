@@ -55,6 +55,7 @@
     words = generateWords(metricValue);
     currentChars = [];
     typedChars = [];
+    errors = 0;
     startTime = 0;
     elapsedSeconds = 0;
     stopTimer();
@@ -83,7 +84,6 @@
 
   function incrementTime() {
     elapsedSeconds += 1;
-    console.log('elapsed', elapsedSeconds);
     timerCycle();
   }
 
