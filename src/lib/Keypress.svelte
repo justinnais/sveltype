@@ -13,7 +13,7 @@
   export let reset: () => void;
 
   // flatten words into character array
-  const correctChars = words
+  $: correctChars = words
     .map((word) => word.characters)
     .flat()
     .map((char) => char.char);
@@ -65,7 +65,7 @@
     if (isChar) {
       currentChars.push(key);
       typedChars.push(key);
-      
+
       checkIfError(key, correctChars[currentChars.length - 1]);
     }
   }

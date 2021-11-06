@@ -63,6 +63,7 @@
     words = generateWords(defaultWordCount);
     currentChars = [];
     typedChars = [];
+    errors = 0;
     startTime = 0;
     elapsedSeconds = 0;
     stopTimer();
