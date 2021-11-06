@@ -52,6 +52,7 @@
   function endGame() {
     endTime = getCurrentTime();
     stopTimer();
+    updateWPM();
     gameRunning = false;
     gameCompleted = true;
   }
@@ -101,6 +102,10 @@
   let wpm = 0;
   $: if (currentChars[currentChars.length - 1] === ' ') {
     // calcs wpm on spacebar
+    updateWPM();
+  }
+
+  function updateWPM() {
     wpm = calculateWPM(words, currentChars, startTime);
   }
 
