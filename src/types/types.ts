@@ -2,6 +2,7 @@ export interface IWord {
   word: string;
   characters: IChar[];
   id: number;
+  clientWidth?: number;
 }
 
 export interface IChar {

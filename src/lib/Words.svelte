@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { onMount } from 'svelte';
+
   import { fly, fade } from 'svelte/transition';
   import Letter from '../lib/Letter.svelte';
   import type { IWord } from '../types/types';
@@ -7,21 +9,34 @@
   export let currentChars;
   let space = '&nbsp;';
 
-  // console.log('foo', container.offsetWidth)
+  let containerWidth;
+
+  let lines = 0;
+
+  onMount(() => {
+    /* Calculate the width of each word in order to work out which line it is on */
+    words.forEach((word) => {
+      const element = document.getElementById(`word-${word.id}`);
+      const width = element.getBoundingClientRect().width; 
+      words[word.id].clientWidth = width;
+    });
+  });
 </script>
 
 <!-- this div is needed to workaround Svelte bug https://github.com/sveltejs/svelte/issues/544 -->
 <div class="transition-force">
   {#key words}
     <div
+      bind:clientWidth={containerWidth}
       id="words-container"
       in:fly={{ y: 20, duration: 500 }}
       out:fly={{ y: -20, duration: 250 }}
     >
+      <span>{containerWidth}</span>
       <div class="words">
-        {#each words as word}
+        {#each words as word (word.id)}
           <span id={`word-${word.id}`} class="word">
-            {#each word.characters as char}
+            {#each word.characters as char (char.id)}
               <Letter id={char.id} {currentChars} {words}
                 >{@html char.char === ' ' ? space : char.char}</Letter
               >
