@@ -1,4 +1,4 @@
-import type { IWord } from 'src/types/types';
+import type { IWord } from '$lib/types/types';
 
 /**
  * Converts words into characters
@@ -6,5 +6,5 @@ import type { IWord } from 'src/types/types';
  * @returns array of characters
  */
 export function wordsToChars(words: IWord[]) {
-  return words.map((word) => word.characters).flat();
+	return words.map((word) => word.characters).flat();
 }

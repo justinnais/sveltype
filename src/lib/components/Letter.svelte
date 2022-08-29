@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
-  import { wordsToChars } from '../utils/wordsToChars';
+  import { wordsToChars } from '$lib/utils/wordsToChars';
   import Caret from './Caret.svelte';
 
   export let id;

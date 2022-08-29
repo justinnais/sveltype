@@ -2,19 +2,19 @@
   import 'carbon-components-svelte/css/g100.css';
   import { fly, fade } from 'svelte/transition';
 
-  import Header from './lib/Header.svelte';
-  import Words from './lib/Words.svelte';
-  import Keypress from './lib/Keypress.svelte';
-  import Restart from './lib/Restart.svelte';
-  import Results from './lib/Results.svelte';
-  import Counters from './lib/Counters.svelte';
+  import Header from '$lib/components/Header.svelte';
+  import Words from '$lib/components/Words.svelte';
+  import Keypress from '$lib/components/Keypress.svelte';
+  import Restart from '$lib/components/Restart.svelte';
+  import Results from '$lib/components/Results.svelte';
+  import Counters from '$lib/components/Counters.svelte';
 
-  import { generateWords } from './utils/generate';
-  import { wordsToChars } from './utils/wordsToChars';
-  import { calculateAccuracy } from './utils/calculateAccuracy';
-  import { getCurrentTime } from './utils/timeLogic';
-  import { calculateWPM } from './utils/calculateWPM';
-  import { getCurrentWord } from './utils/getCurrentWord';
+  import { generateWords } from '$lib/utils/generate';
+  import { wordsToChars } from '$lib/utils/wordsToChars';
+  import { calculateAccuracy } from '$lib/utils/calculateAccuracy';
+  import { getCurrentTime } from '$lib/utils/timeLogic';
+  import { calculateWPM } from '$lib/utils/calculateWPM';
+  import { getCurrentWord } from '$lib/utils/getCurrentWord';
 
   /* WORDS */
   $: words = generateWords(metricValue); // list of generated words

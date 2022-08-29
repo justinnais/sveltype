@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IWord } from 'src/types/types';
+  import type { IWord } from '$lib/types/types';
 
   // https://svelte.dev/tutorial/svelte-window
   // https://svelte.dev/tutorial/updating-arrays-and-objects
