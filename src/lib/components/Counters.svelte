@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IWord } from 'src/types/types';
+  import type { IWord } from '$lib/types/types';
 
   export let gameRunning: boolean;
   export let currentWord: IWord;
