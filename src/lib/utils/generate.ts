@@ -14,7 +14,7 @@ export function generateWords(count: number) {
     // split word into chars
     const chars = word.split('');
 
-    const characters = [];
+    const characters: { char: string; id: number }[] = [];
     chars.forEach((char) => {
       const id = (charId += 1);
       characters.push({ char, id });
