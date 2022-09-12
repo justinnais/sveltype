@@ -18,7 +18,7 @@
     >
       <div class="words">
         {#each words as word}
-          <span id={`word-${word.id}`} class="word">
+          <span id={`word-${word.id}`} class="word leading-6">
             {#each word.characters as char}
               <Letter id={char.id} {currentChars} {words}
                 >{@html char.char === ' ' ? space : char.char}</Letter

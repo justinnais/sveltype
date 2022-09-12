@@ -5,51 +5,15 @@
   export let reset: () => void;
 </script>
 
-<header>
-  <h1 on:click={reset}>
-    <span class="svel">Svel</span><span class="type">type</span>
+<header class="flex flex-col items-start sm:flex-row sm:items-center justify-between gap-4 ">
+  <h1
+    on:click={reset}
+    class="text-5xl font-light cursor-pointer transition hover:translate-x-0.5 hover:-translate-y-0.5"
+  >
+    <span class="svel">Svel</span><span class="text-[#ff3e00]">type</span>
   </h1>
-  <div class="options">
+  <div class="flex flex-col items-end">
     <RadioOptions options={['Time', 'Words']} bind:active={gameMetric} />
     <RadioOptions options={[15, 30, 60]} bind:active={metricValue} />
   </div>
 </header>
-
-<style>
-  header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
-    align-items: center;
-  }
-
-  h1 {
-    cursor: pointer;
-    transition: 0.4s;
-  }
-  h1:hover {
-    transform: translate(2px, -2px);
-  }
-  .type {
-    color: #ff3e00;
-  }
-
-  h1:hover .type {
-    color: rgb(208, 52, 0);
-  }
-
-  @media screen and (max-width: 415px) {
-    header {
-      flex-direction: column;
-      align-items: flex-start;
-    }
-  }
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5em;
-    align-items: flex-end;
-  }
-</style>

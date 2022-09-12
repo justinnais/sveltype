@@ -11,22 +11,16 @@
   }
 </script>
 
-<button bind:this={buttonRef} on:click={handleClick} class="bx--btn" id="restart-button"
-  >Restart</button
+<button
+  bind:this={buttonRef}
+  on:click={handleClick}
+  class="self-center bg-[#ff3e00] text-white text-sm py-3 pl-3 pr-12 border border-transparent transition"
+  id="restart-button">Restart</button
 >
 
 <style>
-  button {
-    align-self: center;
-    background-color: #ff3e00;
-    border: 1px solid transparent;
-    color: var(--cds-text-04, #fff);
-    transition: 0.5s;
-  }
-
   button:hover,
   button:focus {
     transform: translate(2px, -2px);
-    background-color: rgb(208, 52, 0);
   }
 </style>
