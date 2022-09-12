@@ -1,5 +1,4 @@
 <script lang="ts">
-  import 'carbon-components-svelte/css/g100.css';
   import { fly, fade } from 'svelte/transition';
 
   import { Header, Words, Keypress, Restart, Results, Counters } from '$lib/components';
