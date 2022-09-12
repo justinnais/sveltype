@@ -2,19 +2,15 @@
   import 'carbon-components-svelte/css/g100.css';
   import { fly, fade } from 'svelte/transition';
 
-  import Header from '$lib/components/Header.svelte';
-  import Words from '$lib/components/Words.svelte';
-  import Keypress from '$lib/components/Keypress.svelte';
-  import Restart from '$lib/components/Restart.svelte';
-  import Results from '$lib/components/Results.svelte';
-  import Counters from '$lib/components/Counters.svelte';
-
-  import { generateWords } from '$lib/utils/generate';
-  import { wordsToChars } from '$lib/utils/wordsToChars';
-  import { calculateAccuracy } from '$lib/utils/calculateAccuracy';
-  import { getCurrentTime } from '$lib/utils/timeLogic';
-  import { calculateWPM } from '$lib/utils/calculateWPM';
-  import { getCurrentWord } from '$lib/utils/getCurrentWord';
+  import { Header, Words, Keypress, Restart, Results, Counters } from '$lib/components';
+  import {
+    generateWords,
+    wordsToChars,
+    calculateAccuracy,
+    getCurrentTime,
+    calculateWPM,
+    getCurrentWord
+  } from '$lib/utils';
 
   /* WORDS */
   $: words = generateWords(metricValue); // list of generated words
