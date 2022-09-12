@@ -108,14 +108,7 @@
         {#if !gameCompleted}
           <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
             <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
-            <Counters
-              {gameRunning}
-              {currentWord}
-              {words}
-              {wpm}
-              {accuracy}
-              {elapsedSeconds}
-            />
+            <Counters {gameRunning} {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
             <!-- <Timer {startTime} {gameRunning} /> -->
             <Keypress
               bind:currentChars
@@ -130,14 +123,7 @@
           </div>
         {:else}
           <div>
-            <Results
-              words={words.length}
-              {currentChars}
-              {wpm}
-              {accuracy}
-              {errors}
-              {duration}
-            />
+            <Results words={words.length} {currentChars} {wpm} {accuracy} {errors} {duration} />
           </div>
         {/if}
       </div>
@@ -148,8 +134,8 @@
 
 <style>
   :root {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-      Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+      'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
   .app {

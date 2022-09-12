@@ -9,11 +9,7 @@
 
 <div class="root">
   {#each options as option}
-    <div
-      class="option"
-      class:active={option === active}
-      on:click={() => handleClick(option)}
-    >
+    <div class="option" class:active={option === active} on:click={() => handleClick(option)}>
       {option}
     </div>
   {/each}

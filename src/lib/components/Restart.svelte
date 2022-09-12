@@ -8,12 +8,15 @@
 
   function handleClick() {
     // unfocus the button to prevent reseting on space
-    buttonRef.blur()
-    reset()
+    buttonRef.blur();
+    reset();
   }
 </script>
 
-<button bind:this={buttonRef} on:click={handleClick} class="bx--btn" id='restart-button'>Restart</button>
+<button bind:this={buttonRef} on:click={handleClick} class="bx--btn" id="restart-button"
+  >Restart</button
+>
+
 <style>
   button {
     align-self: center;
@@ -23,8 +26,9 @@
     transition: 0.5s;
   }
 
-  button:hover, button:focus {
-  transform: translate(2px, -2px);
+  button:hover,
+  button:focus {
+    transform: translate(2px, -2px);
     background-color: rgb(208, 52, 0);
   }
 </style>
