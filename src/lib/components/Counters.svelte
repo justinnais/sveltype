@@ -28,5 +28,4 @@
     gap: 2rem;
     margin-bottom: 1em;
   }
-  
 </style>
