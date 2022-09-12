@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly, fade } from 'svelte/transition';
 
-  import { Words, Keypress, Restart, Results, Counters } from '$lib/components';
+  import { Words, Keypress, Restart, Results, Counters, Header } from '$lib/components';
   import {
     generateWords,
     wordsToChars,
@@ -98,30 +98,33 @@
   $: accuracy = calculateAccuracy(currentChars, errors);
 </script>
 
-<div class="transition-force">
-  {#if !gameCompleted}
-    <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
-      <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
-      <Counters {gameRunning} {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
-      <!-- <Timer {startTime} {gameRunning} /> -->
-      <Keypress
-        bind:currentChars
-        bind:typedChars
-        bind:gameRunning
-        start={startGame}
-        reset={resetGame}
-        {words}
-        bind:errors
-      />
-      <Words {words} {currentChars} />
-    </div>
-  {:else}
-    <div>
-      <Results words={words.length} {currentChars} {wpm} {accuracy} {errors} {duration} />
-    </div>
-  {/if}
-</div>
-<Restart reset={resetGame} />
+<Header bind:metricValue bind:gameMetric reset={resetGame} />
+<main class="flex flex-col justify-between gap-4">
+  <div class="transition-force">
+    {#if !gameCompleted}
+      <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
+        <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
+        <Counters {gameRunning} {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
+        <!-- <Timer {startTime} {gameRunning} /> -->
+        <Keypress
+          bind:currentChars
+          bind:typedChars
+          bind:gameRunning
+          start={startGame}
+          reset={resetGame}
+          {words}
+          bind:errors
+        />
+        <Words {words} {currentChars} />
+      </div>
+    {:else}
+      <div>
+        <Results words={words.length} {currentChars} {wpm} {accuracy} {errors} {duration} />
+      </div>
+    {/if}
+  </div>
+  <Restart reset={resetGame} />
+</main>
 
 <style>
   .transition-force {

@@ -11,7 +11,7 @@
 
 <div class="counters">
   {#if !gameRunning}
-    <h4>Type to start</h4>
+    <h4 class="text-lg">Type to start</h4>
   {:else}
     <!-- TODO bug here with array going to zero - eg type then backspace to zero -->
     <h4>{currentWord.id}/{words.length}</h4>
