@@ -10,9 +10,12 @@
     calculateWPM,
     getCurrentWord
   } from '$lib/utils';
+  import type { IWord } from '$lib/types/types';
+
+  export let data: { words: IWord[] };
 
   /* WORDS */
-  $: words = generateWords(metricValue); // list of generated words
+  $: words = data.words; // list of generated words
   $: currentWord = getCurrentWord(words, currentChars);
 
   /* CHARS */
