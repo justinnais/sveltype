@@ -48,7 +48,7 @@
     typedChars = typedChars;
   }
 
-  function handleTab(event: { key?: string; preventDefault: any }) {
+  function handleTab(event: KeyboardEvent) {
     // I could use the button ref but that would require some prop drilling I want to avoid
     event.preventDefault();
     const restartButton = document.getElementById('restart-button');

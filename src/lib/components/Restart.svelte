@@ -1,8 +1,6 @@
 <script lang="ts">
   // your script goes here
 
-  import { TooltipIcon } from 'carbon-components-svelte';
-
   export let reset: () => void;
   let buttonRef;
 

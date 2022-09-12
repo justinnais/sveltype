@@ -1,7 +1,7 @@
 <script lang="ts">
   export let gameRunning: boolean;
   export let startTime: number;
-  export let testLength: number = 60000;
+  export let testLength = 60000;
 
   $: finishTime = startTime + testLength;
 

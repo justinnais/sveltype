@@ -1,7 +1,7 @@
-import type { IChar, IWord } from '$lib/types/types';
+import type { IWord } from '$lib/types/types';
 
 export function generateWords(count: number) {
-  let wordsArr: IWord[] = [];
+  const wordsArr: IWord[] = [];
   let charId = -1;
   for (let id = 0; id < count; id++) {
     const lastWord: boolean = id === count - 1;
@@ -14,9 +14,9 @@ export function generateWords(count: number) {
     // split word into chars
     const chars = word.split('');
 
-    let characters = [];
+    const characters = [];
     chars.forEach((char) => {
-      let id = (charId += 1);
+      const id = (charId += 1);
       characters.push({ char, id });
     });
 
