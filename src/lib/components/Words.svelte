@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { fly, fade } from 'svelte/transition';
+  import { fly } from 'svelte/transition';
   import Letter from '$lib/components/Letter.svelte';
   import type { IWord } from '$lib/types/types';
 

@@ -29,7 +29,7 @@
   let gameCompleted = false;
   type gameOptions = 'Time' | 'Words';
   let gameMetric: gameOptions = 'Words';
-  let metricValue: number = 15;
+  let metricValue = 15;
 
   $: if (currentChars.length === wordsToChars(words).length) {
     endGame();
@@ -72,7 +72,7 @@
   $: duration = endTime - startTime;
   let elapsedSeconds = 0;
 
-  let handleTimeout: NodeJS.Timeout;
+  let handleTimeout: any; // TODO replace
 
   function timerCycle() {
     handleTimeout = setTimeout(incrementTime, 1000);
