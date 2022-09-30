@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { generateWords } from '$lib/utils';
+import { generateWords, wordsToChars } from '$lib/utils';
 import { getDetailedWords, listOfWords } from '$lib/utils/generate';
 
 describe('word generation', () => {
@@ -47,9 +47,26 @@ describe('character generation', () => {
   });
 
   it('should have character ids matching their position in entire word array', () => {
-    const allChars = words.flatMap(({ characters }) => characters);
+    const allChars = wordsToChars(words);
     allChars.forEach(({ char, id }, index) => {
       expect(id).toBe(index);
+    });
+  });
+});
+
+describe('words to chars', () => {
+  const words = getDetailedWords(listOfWords);
+  const chars = wordsToChars(words);
+
+  it('should have the same number of chars as the word', () => {
+    expect(chars.length).toBe(wordsToChars(words).length);
+  });
+
+  it('should have characters matching their parent word', () => {
+    const allChars = wordsToChars(words);
+    allChars.forEach(({ char, id }, index) => {
+      expect(chars[index].char).toBe(char);
+      expect(chars[index].id).toBe(id);
     });
   });
 });
