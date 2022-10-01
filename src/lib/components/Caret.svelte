@@ -1,22 +1,17 @@
 <div class="caret" />
 
-<style>
+<style lang="postcss">
   .caret {
-    position: absolute;
-    transform: translateX(-1px);
-    display: inline-flex;
-    height: 1em;
-    width: 2px;
-    background-color: #ff3e00;
-    animation: blink-animation 1.2s steps(3, start) infinite;
-    -webkit-animation: blink-animation 1.2s steps(3, start) infinite;
+    @apply absolute -translate-x-px inline-flex h-[1em] w-0.5 bg-primary;
+    animation: blink 1.2s steps(3, start) infinite;
+    -webkit: blink 1.2s steps(3, start) infinite;
   }
-  @keyframes blink-animation {
+  @keyframes blink {
     to {
       visibility: hidden;
     }
   }
-  @-webkit-keyframes blink-animation {
+  @-webkit-keyframes blink {
     to {
       visibility: hidden;
     }
