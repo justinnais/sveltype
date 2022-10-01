@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fly } from 'svelte/transition';
   import Letter from '$lib/components/Letter.svelte';
-  import type { IWord } from '$lib/types/types';
+  import type { IWord } from '$lib/types';
 
   export let words: IWord[];
   export let currentChars;

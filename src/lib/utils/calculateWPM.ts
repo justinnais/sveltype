@@ -1,33 +1,37 @@
-import type { IWord } from '$lib/types/types';
-import { wordsToChars } from '$lib/utils';
+import type { wpmMetrics } from '$lib/types';
+
+const MINUTE_AS_MILLISECONDS = 60000;
 
 // https://www.100utils.com/how-to-calculate-typing-speed-wpm-and-accuracy/
 
 /**
- * @todo refactor this to use calculateNetWPM function
- * @param words
- * @param currentChars
- * @param startTime
- * @returns
+ * Calculates both raw and net words per minute
+ * @param allCharacters all characters typed
+ * @param uncorrectedErrors errors that were not corrected
+ * @param startTime time when the test started
+ * @returns net and raw wpm as an object
  */
-export function calculateWPM(words: IWord[], currentChars: string[], startTime: number): number {
-  const wordCount = words.length;
-  const characterCount = wordsToChars(words).length;
-  const averageWordLength = characterCount / wordCount;
-  const duration = (Date.now() - startTime) / 60000;
+export function calculateWPM(
+  allCharacters: string[],
+  uncorrectedErrors: number,
+  startTime: number
+): wpmMetrics {
+  const duration = Date.now() - startTime;
 
-  const wpm = parseInt((currentChars.length / averageWordLength / duration).toFixed(2));
-
-  return isNaN(wpm) ? 0 : wpm;
+  return {
+    net: calculateNetWPM(allCharacters.length, uncorrectedErrors, duration),
+    raw: calculateRawWPM(allCharacters.length, duration)
+  };
 }
 
 /**
  * @param characters all characters typed including errors, spaces. Exluding backspaces and modifiers
- * @param minutes minutes elapsed since start
+ * @param milliseconds millseconds elapsed since start
  * @returns raw typing speed in words per minute
  */
-export function calculateRawWPM(characters: number, minutes: number): number {
+export function calculateRawWPM(characters: number, milliseconds: number): number {
   const words = characters / 5;
+  const minutes = milliseconds / MINUTE_AS_MILLISECONDS;
   return Number((words / minutes).toFixed(2));
 }
 
@@ -46,9 +50,9 @@ export function calculateNetWPM(
     throw new Error('Invalid input');
   }
 
-  const minutes = milliseconds / 60000;
-  const raw = calculateRawWPM(characters, minutes);
+  const raw = calculateRawWPM(characters, milliseconds);
 
+  const minutes = milliseconds / MINUTE_AS_MILLISECONDS;
   const net = raw - uncorrectedErrors / minutes;
 
   if (isNaN(net)) throw new Error('net is NaN');
