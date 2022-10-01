@@ -48,7 +48,7 @@ describe('character generation', () => {
 
   it('should have character ids matching their position in entire word array', () => {
     const allChars = wordsToChars(words);
-    allChars.forEach(({ char, id }, index) => {
+    allChars.forEach(({ id }, index) => {
       expect(id).toBe(index);
     });
   });

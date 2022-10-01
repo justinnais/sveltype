@@ -1,20 +1,6 @@
 import { describe, it, expect } from 'vitest';
-import { calculateRawWPM, calculateWPM } from '$lib/utils';
+import { calculateRawWPM } from '$lib/utils';
 import { calculateNetWPM } from '$lib/utils/calculateWPM';
-import { getDetailedWords } from '$lib/utils/generate';
-
-// describe('wpm', () => {
-//   it('should handle empty words array', () => {
-//     expect(calculateWPM([], [], 0)).toBe(0);
-//   });
-
-//   const words = getDetailedWords(['hello', 'world']);
-//   const chars = ['h', 'e', 'l', 'l', 'o', ' ', 'w', 'o', 'r', 'l', 'd'];
-
-//   it('should get 100wpm', () => {
-//     expect(calculateWPM(words, chars, 0)).toBe(100);
-//   });
-// });
 
 describe('raw wpm', () => {
   it('should get 40wpm over 1 minute', () => {

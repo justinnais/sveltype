@@ -1,7 +1,6 @@
 import { generateWords } from '$lib/utils';
-import type { LoadEvent } from '@sveltejs/kit';
 
-export function load({ params }: LoadEvent) {
+export function load() {
   const words = generateWords(30);
   return {
     words

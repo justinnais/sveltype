@@ -69,6 +69,7 @@
   $: duration = endTime - startTime;
   let elapsedSeconds = 0;
 
+  // eslint-disable-next-line
   let handleTimeout: any; // TODO replace
 
   function timerCycle() {
