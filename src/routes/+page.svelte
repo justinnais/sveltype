@@ -9,7 +9,7 @@
     calculateWPM,
     getCurrentWord
   } from '$lib/utils';
-  import type { IWord } from '$lib/types/types';
+  import type { IWord, wpmMetrics } from '$lib/types';
 
   export let data: { words: IWord[] };
 
@@ -86,10 +86,11 @@
   }
 
   /* WPM */
-  let wpm = 0;
+  let wpm: wpmMetrics = { raw: 0, net: 0 };
   $: if (currentChars[currentChars.length - 1] === ' ') {
     // calcs wpm on spacebar
-    wpm = calculateWPM(words, currentChars, startTime);
+    // can't properly destructure in here
+    wpm = calculateWPM(typedChars, errors, startTime);
   }
 
   /* ACCURACY */

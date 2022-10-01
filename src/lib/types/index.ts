@@ -9,5 +9,10 @@ export interface IChar {
   id: number;
 }
 
+export interface wpmMetrics {
+  raw: number;
+  net: number;
+}
+
 // undefined if not touched, true if correct, false if incorrect
 export type LetterStatus = undefined | true | false;

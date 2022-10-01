@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { IWord } from '$lib/types/types';
+  import type { IWord } from '$lib/types';
 
   export let errors: string[];
   export let currentChars: string[];
