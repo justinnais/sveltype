@@ -3,6 +3,13 @@ import { wordsToChars, getCurrentTime } from '$lib/utils';
 
 // https://www.100utils.com/how-to-calculate-typing-speed-wpm-and-accuracy/
 
+/**
+ * @todo refactor this to use calculateNetWPM function
+ * @param words 
+ * @param currentChars 
+ * @param startTime 
+ * @returns 
+ */
 export function calculateWPM(words: IWord[], currentChars: string[], startTime: number): number {
   const wordCount = words.length;
   const characterCount = wordsToChars(words).length;
@@ -11,9 +18,7 @@ export function calculateWPM(words: IWord[], currentChars: string[], startTime: 
 
   const wpm = parseInt((currentChars.length / averageWordLength / duration).toFixed(2));
 
-  // return isNaN(wpm) ? 0 : wpm;
-
-  return wpm;
+  return isNaN(wpm) ? 0 : wpm;
 }
 
 /**
@@ -40,6 +45,7 @@ export function calculateNetWPM(
   if (characters < 0 || milliseconds <= 0) {
     throw new Error('Invalid input');
   }
+
   const minutes = milliseconds / 60000;
   const raw = calculateRawWPM(characters, minutes);
 
@@ -47,5 +53,5 @@ export function calculateNetWPM(
 
   if (isNaN(net)) throw new Error('net is NaN');
 
-  return net;
+  return net < 0 ? 0 : Number(net.toFixed(2));
 }
