@@ -8,12 +8,12 @@
 <header class="flex flex-col items-start sm:flex-row sm:items-center justify-between gap-4 ">
   <h1
     on:click={reset}
-    class="text-5xl font-light cursor-pointer transition hover:translate-x-0.5 hover:-translate-y-0.5"
+    class="text-5xl font-serif cursor-pointer underline decoration-wavy decoration-[#ff3e00] decoration-2 underline-offset-4"
   >
-    <span class="svel">Svel</span><span class="text-[#ff3e00]">type</span>
+    sveltype
   </h1>
   <div class="flex flex-col items-end">
-    <RadioOptions options={['Time', 'Words']} bind:active={gameMetric} />
+    <RadioOptions options={['Words']} bind:active={gameMetric} />
     <RadioOptions options={[15, 30, 60]} bind:active={metricValue} />
   </div>
 </header>
