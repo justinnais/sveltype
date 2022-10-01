@@ -1,14 +1,22 @@
 import type { IWord } from '$lib/types/types';
 
-export function generateWords(count: number) {
+export function generateWords(count: number): IWord[] {
+  if (count < 0 || isNaN(count)) {
+    throw new Error('count must be a positive number');
+  }
+
+  return getDetailedWords(Array.from({ length: count }, () => getWord()));
+}
+
+export function getDetailedWords(words: string[]): IWord[] {
   const wordsArr: IWord[] = [];
   let charId = -1;
-  for (let id = 0; id < count; id++) {
-    const lastWord: boolean = id === count - 1;
-    let word = listOfWords[Math.floor(Math.random() * listOfWords.length)];
+  for (let id = 0; id < words.length; id++) {
+    const isLastWord: boolean = id === words.length - 1;
+    let word = words[id];
 
     // if not the last word add a space
-    if (!lastWord) {
+    if (!isLastWord) {
       word = `${word} `;
     }
     // split word into chars
@@ -25,7 +33,11 @@ export function generateWords(count: number) {
   return wordsArr;
 }
 
-const listOfWords = [
+function getWord() {
+  return listOfWords[Math.floor(Math.random() * listOfWords.length)];
+}
+
+export const listOfWords = [
   'the',
   'be',
   'of',
