@@ -16,3 +16,10 @@ export interface wpmMetrics {
 
 // undefined if not touched, true if correct, false if incorrect
 export type LetterStatus = undefined | true | false;
+
+export interface Duration {
+  days?: number;
+  hours?: number;
+  minutes?: number;
+  seconds?: number;
+}

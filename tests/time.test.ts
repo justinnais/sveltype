@@ -1,27 +1,25 @@
 import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest';
-import { calculateWPM, calculateRawWPM, calculateNetWPM } from '$lib/utils';
-
-const MINUTE_AS_MILLISECONDS = 60000;
+import { calculateWPM, calculateRawWPM, calculateNetWPM, durationToMilliseconds } from '$lib/utils';
 
 describe('raw wpm', () => {
   it('should get 40wpm over 1 minute', () => {
-    expect(calculateRawWPM(200, MINUTE_AS_MILLISECONDS)).toBe(40);
+    expect(calculateRawWPM(200, durationToMilliseconds({ minutes: 1 }))).toBe(40);
   });
 
   it('should get 80wpm over 30 seconds', () => {
-    expect(calculateRawWPM(200, MINUTE_AS_MILLISECONDS / 2)).toBe(80);
+    expect(calculateRawWPM(200, durationToMilliseconds({ seconds: 30 }))).toBe(80);
   });
 
   it('should get 123.6wpm over 10 seconds', () => {
-    expect(calculateRawWPM(103, MINUTE_AS_MILLISECONDS / 6)).toBe(123.6);
+    expect(calculateRawWPM(103, durationToMilliseconds({ seconds: 10 }))).toBe(123.6);
   });
 
   it('should get 173.33wpm over 9 seconds', () => {
-    expect(calculateRawWPM(130, MINUTE_AS_MILLISECONDS * 0.15)).toBe(173.33);
+    expect(calculateRawWPM(130, durationToMilliseconds({ seconds: 9 }))).toBe(173.33);
   });
 
   it('should get 0wpm over a minute', () => {
-    expect(calculateRawWPM(0, MINUTE_AS_MILLISECONDS)).toBe(0);
+    expect(calculateRawWPM(0, durationToMilliseconds({ minutes: 1 }))).toBe(0);
   });
 
   it('should be infinity if no time has elapsed', () => {
@@ -31,23 +29,23 @@ describe('raw wpm', () => {
 
 describe('net wpm', () => {
   it('should get 40wpm over 1 minute with no errors', () => {
-    expect(calculateNetWPM(200, 0, MINUTE_AS_MILLISECONDS)).toBe(40);
+    expect(calculateNetWPM(200, 0, durationToMilliseconds({ minutes: 1 }))).toBe(40);
   });
 
   it('should get 76wpm over 1 minute with 4 errors', () => {
-    expect(calculateNetWPM(400, 4, MINUTE_AS_MILLISECONDS)).toBe(76);
+    expect(calculateNetWPM(400, 4, durationToMilliseconds({ minutes: 1 }))).toBe(76);
   });
 
   it('should get 123.6wpm over 10 seconds', () => {
-    expect(calculateNetWPM(103, 0, MINUTE_AS_MILLISECONDS / 6)).toBe(123.6);
+    expect(calculateNetWPM(103, 0, durationToMilliseconds({ seconds: 10 }))).toBe(123.6);
   });
 
   it('should get 173.33wpm over 9 seconds', () => {
-    expect(calculateNetWPM(130, 0, MINUTE_AS_MILLISECONDS * 0.15)).toBe(173.33);
+    expect(calculateNetWPM(130, 0, durationToMilliseconds({ seconds: 9 }))).toBe(173.33);
   });
 
   it('should get 0wpm over a minute', () => {
-    expect(calculateNetWPM(0, 0, MINUTE_AS_MILLISECONDS)).toBe(0);
+    expect(calculateNetWPM(0, 0, durationToMilliseconds({ minutes: 1 }))).toBe(0);
   });
 
   it('should handle negative or zero inputs', () => {
@@ -56,16 +54,20 @@ describe('net wpm', () => {
   });
 
   it('should return 0 if wpm is negative', () => {
-    expect(calculateNetWPM(10, 8, MINUTE_AS_MILLISECONDS)).toBe(0);
+    expect(calculateNetWPM(10, 8, durationToMilliseconds({ minutes: 1 }))).toBe(0);
   });
 
   const sets = [
-    { chars: 123, time: MINUTE_AS_MILLISECONDS / 2 },
-    { chars: 400, time: MINUTE_AS_MILLISECONDS },
-    { chars: 103, time: MINUTE_AS_MILLISECONDS / 6 },
-    { chars: 130, time: MINUTE_AS_MILLISECONDS * 0.15 },
-    { chars: 1000, time: MINUTE_AS_MILLISECONDS },
-    { chars: 1153, time: 43465 }
+    { chars: 123, time: durationToMilliseconds({ seconds: 30 }) },
+    { chars: 400, time: durationToMilliseconds({ minutes: 1 }) },
+    { chars: 103, time: durationToMilliseconds({ seconds: 10 }) },
+    { chars: 130, time: durationToMilliseconds({ seconds: 9 }) },
+    { chars: 1000, time: durationToMilliseconds({ minutes: 1 }) },
+    { chars: 1153, time: durationToMilliseconds({ seconds: 43 }) },
+    {
+      chars: 12345678,
+      time: durationToMilliseconds({ days: 1, hours: 23, minutes: 59, seconds: 59 })
+    }
   ];
 
   it.each(sets)('should return 0 if 20% of the characters are errors', ({ chars, time }) => {
@@ -85,7 +87,7 @@ describe('net wpm', () => {
 // TODO - I'm unsure of exactly how to mock time correctly in vitest, this section needs cleanup and better tests
 
 const executeAfterOneMinute = (func: () => void) => {
-  setTimeout(func, MINUTE_AS_MILLISECONDS);
+  setTimeout(func, durationToMilliseconds({ minutes: 1 }));
 };
 
 const mock = vi.fn((chars, errors, time) => calculateWPM(chars, errors, time));
@@ -105,7 +107,7 @@ describe('calculate wpm', () => {
     executeAfterOneMinute(() => console.log(startTime));
     vi.runAllTimers();
     const endTime = new Date();
-    expect(endTime.getTime() - startTime.getTime()).toBe(MINUTE_AS_MILLISECONDS);
+    expect(endTime.getTime() - startTime.getTime()).toBe(durationToMilliseconds({ minutes: 1 }));
   });
 
   it('should return work with a mock', () => {
@@ -117,7 +119,7 @@ describe('calculate wpm', () => {
 
   it('should return the correct raw and net wpm', () => {
     const time = new Date();
-    vi.advanceTimersByTime(MINUTE_AS_MILLISECONDS);
+    vi.advanceTimersByTime(durationToMilliseconds({ minutes: 1 }));
     const wpm = calculateWPM(typedChars, 0, time.getTime());
     expect(wpm.raw).toBe(40);
     expect(wpm.net).toBe(40);
@@ -125,7 +127,7 @@ describe('calculate wpm', () => {
 
   it('should return the correct raw and net wpm', () => {
     const time = new Date();
-    vi.advanceTimersByTime(MINUTE_AS_MILLISECONDS);
+    vi.advanceTimersByTime(durationToMilliseconds({ minutes: 1 }));
     const wpm = calculateWPM(typedChars, 10, time.getTime());
     expect(wpm.raw).toBe(40);
     expect(wpm.net).toBe(30);
