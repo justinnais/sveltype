@@ -18,9 +18,9 @@
   id="restart-button">Restart</button
 >
 
-<style lang='postcss'>
+<style lang="postcss">
   button:hover,
   button:focus {
-    @apply text-neutral-100 translate-x-0.5 -translate-y-0.5
+    @apply text-neutral-100 translate-x-0.5 -translate-y-0.5;
   }
 </style>
