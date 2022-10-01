@@ -1,20 +1,20 @@
 import type { IWord } from '$lib/types/types';
-import { wordsToChars, getCurrentTime } from '$lib/utils';
+import { wordsToChars } from '$lib/utils';
 
 // https://www.100utils.com/how-to-calculate-typing-speed-wpm-and-accuracy/
 
 /**
  * @todo refactor this to use calculateNetWPM function
- * @param words 
- * @param currentChars 
- * @param startTime 
- * @returns 
+ * @param words
+ * @param currentChars
+ * @param startTime
+ * @returns
  */
 export function calculateWPM(words: IWord[], currentChars: string[], startTime: number): number {
   const wordCount = words.length;
   const characterCount = wordsToChars(words).length;
   const averageWordLength = characterCount / wordCount;
-  const duration = (getCurrentTime() - startTime) / 60000;
+  const duration = (Date.now() - startTime) / 60000;
 
   const wpm = parseInt((currentChars.length / averageWordLength / duration).toFixed(2));
 

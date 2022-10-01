@@ -6,7 +6,6 @@
     generateWords,
     wordsToChars,
     calculateAccuracy,
-    getCurrentTime,
     calculateWPM,
     getCurrentWord
   } from '$lib/utils';
@@ -35,12 +34,12 @@
 
   function startGame() {
     gameRunning = true;
-    startTime = getCurrentTime();
+    startTime = Date.now()
     timerCycle();
   }
 
   function endGame() {
-    endTime = getCurrentTime();
+    endTime = Date.now()
     stopTimer();
     gameRunning = false;
     gameCompleted = true;
