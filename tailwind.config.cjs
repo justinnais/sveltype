@@ -7,6 +7,9 @@ module.exports = {
     extend: {
       fontFamily: {
         serif: ['Merriweather', ...defaultTheme.fontFamily.serif]
+      },
+      colors: {
+        primary: '#ff3e00'
       }
     }
   },

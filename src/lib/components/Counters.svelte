@@ -9,9 +9,9 @@
   export let elapsedSeconds: number;
 </script>
 
-<div class="text-lg flex flex-row justify-start gap-8 mb-4">
+<div class="text-lg font-medium flex flex-row justify-start gap-8 mb-4">
   {#if !gameRunning}
-    <h4>Type to start</h4>
+    <h4>type to start</h4>
   {:else}
     <!-- TODO bug here with array going to zero - eg type then backspace to zero -->
     <h4>{currentWord.id}/{words.length}</h4>

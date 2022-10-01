@@ -14,13 +14,13 @@
 <button
   bind:this={buttonRef}
   on:click={handleClick}
-  class="self-center bg-[#ff3e00] text-white text-sm py-3 pl-3 pr-12 border border-transparent transition"
+  class="self-center  bg-primary text-neutral-900 font-medium py-3 pl-3 pr-12 border border-transparent transition"
   id="restart-button">Restart</button
 >
 
-<style>
+<style lang='postcss'>
   button:hover,
   button:focus {
-    transform: translate(2px, -2px);
+    @apply text-neutral-100 translate-x-0.5 -translate-y-0.5
   }
 </style>
