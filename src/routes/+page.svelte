@@ -34,12 +34,12 @@
 
   function startGame() {
     gameRunning = true;
-    startTime = Date.now()
+    startTime = Date.now();
     timerCycle();
   }
 
   function endGame() {
-    endTime = Date.now()
+    endTime = Date.now();
     stopTimer();
     gameRunning = false;
     gameCompleted = true;
