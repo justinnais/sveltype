@@ -9,7 +9,7 @@
     calculateWPM,
     getCurrentWord
   } from '$lib/utils';
-  import type { IWord, wpmMetrics } from '$lib/types';
+  import { GameState, type IWord, type wpmMetrics } from '$lib/types';
 
   export let data: { words: IWord[] };
 
@@ -22,8 +22,6 @@
   let typedChars: string[] = []; // typed chars is all characters typed including errors
 
   /* GAME STATE */
-  $: gameRunning = false;
-  let gameCompleted = false;
   type gameOptions = 'Time' | 'Words';
   let gameMetric: gameOptions = 'Words';
   let metricValue = 15;
@@ -33,7 +31,7 @@
   }
 
   function startGame() {
-    gameRunning = true;
+    $game.state = GameState.STARTED;
     $game.time.start = Date.now();
     timerCycle();
   }
@@ -41,14 +39,12 @@
   function endGame() {
     $game.time.end = Date.now();
     stopTimer();
-    gameRunning = false;
-    gameCompleted = true;
+    $game.state = GameState.ENDED;
   }
 
   function resetGame() {
     // TODO fix words, accuracy and errors not resetings correctly
-    gameRunning = false;
-    gameCompleted = false;
+    $game.state = GameState.WAITING;
     words = generateWords(metricValue);
     currentChars = [];
     typedChars = [];
@@ -106,19 +102,12 @@
 </pre>
 <main class="flex flex-col justify-between gap-4">
   <div class="transition-force">
-    {#if !gameCompleted}
+    {#if $game.state !== GameState.ENDED}
       <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
         <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
-        <Counters {gameRunning} {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
+        <Counters {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
         <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress
-          bind:currentChars
-          bind:typedChars
-          bind:gameRunning
-          start={startGame}
-          reset={resetGame}
-          {words}
-        />
+        <Keypress bind:currentChars bind:typedChars start={startGame} reset={resetGame} {words} />
         <Words {words} {currentChars} />
       </div>
     {:else}

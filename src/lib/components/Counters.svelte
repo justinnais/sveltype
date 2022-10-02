@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { IWord, wpmMetrics } from '$lib/types';
+  import { game } from '$lib/stores';
+  import { GameState, type IWord, type wpmMetrics } from '$lib/types';
 
-  export let gameRunning: boolean;
   export let currentWord: IWord;
   export let words: IWord[];
   export let wpm: wpmMetrics;
@@ -10,7 +10,7 @@
 </script>
 
 <div class="text-lg font-medium flex flex-row justify-start gap-8 mb-4">
-  {#if !gameRunning}
+  {#if $game.state === GameState.WAITING}
     <h4>type to start</h4>
   {:else}
     <!-- TODO bug here with array going to zero - eg type then backspace to zero -->
