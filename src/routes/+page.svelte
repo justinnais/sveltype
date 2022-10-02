@@ -54,7 +54,8 @@
 <Header bind:metricValue bind:gameMetric />
 <pre>
   {JSON.stringify($game.characters.join(''), null, 2)}
-  {JSON.stringify($game.state, null, 2)}
+  {JSON.stringify($game.errors, null, 2)}
+
 </pre>
 <main class="flex flex-col justify-between gap-4">
   <div class="transition-force">

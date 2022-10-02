@@ -69,7 +69,7 @@
   function checkIfError(typed: string, correct: string) {
     if (typed !== correct) {
       $game.errors.total += 1;
-      $game.errors.uncorrected += 1;
+      // $game.errors.uncorrected += 1;
       // TODO need to check if the error is corrected and adjust uncorrectedErrors
     }
   }

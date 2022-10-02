@@ -1,5 +1,5 @@
 import { GameState, type Game } from '$lib/types';
-import { generateWords } from '$lib/utils';
+import { generateWords, getUncorrectedErrors } from '$lib/utils';
 import { writable } from 'svelte/store';
 
 const baseState: Game = {
@@ -46,6 +46,10 @@ function createGameStore() {
     end: () =>
       update((state) => ({
         ...state,
+        errors: {
+          ...state.errors,
+          uncorrected: getUncorrectedErrors(state.characters, state.words)
+        },
         state: GameState.ENDED,
         time: { ...state.time, end: Date.now() }
       })),
