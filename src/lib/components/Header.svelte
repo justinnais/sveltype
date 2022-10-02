@@ -2,12 +2,11 @@
   import RadioOptions from './RadioOptions.svelte';
   export let gameMetric: string | number;
   export let metricValue: string | number;
-  export let reset: () => void;
+  // export let reset: () => void;
 </script>
 
 <header class="flex flex-col items-start sm:flex-row sm:items-center justify-between gap-4 ">
   <h1
-    on:click={reset}
     class="text-5xl font-serif cursor-pointer underline decoration-wavy decoration-primary decoration-2 underline-offset-4"
   >
     sveltype

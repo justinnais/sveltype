@@ -4,7 +4,6 @@
 
   let key: string;
   export let words: IWord[];
-  export let start: () => void;
   export let reset: () => void;
 
   $: isRunning = $game.state === GameState.STARTED;
@@ -15,14 +14,14 @@
     .flat()
     .map((char) => char.char);
 
-  function handleKeypress(event: { key: string; preventDefault: () => void }) {
+  function handleKeypress(event: KeyboardEvent) {
     key = event.key;
     const regex = /^[\w\W]$/gm; // true if any single char - no words or modifiers
     const isChar = regex.test(key);
 
     if (!isRunning && isChar) {
       // if the game is not running, start the game if character is typed
-      start();
+      game.start();
     } else if (isRunning && key === 'Escape') {
       // if the game is running and escape key is pressed, reset the game
       $game.characters = [];

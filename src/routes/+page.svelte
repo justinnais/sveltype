@@ -23,20 +23,20 @@
   let metricValue = 15;
 
   $: if ($game.characters.length === wordsToChars(words).length) {
-    endGame();
+    game.end();
   }
 
-  function startGame() {
-    $game.state = GameState.STARTED;
-    $game.time.start = Date.now();
-    timerCycle();
-  }
+  // function startGame() {
+  //   $game.state = GameState.STARTED;
+  //   $game.time.start = Date.now();
+  //   timerCycle();
+  // }
 
-  function endGame() {
-    $game.time.end = Date.now();
-    stopTimer();
-    $game.state = GameState.ENDED;
-  }
+  // function endGame() {
+  //   $game.time.end = Date.now();
+  //   stopTimer();
+  //   $game.state = GameState.ENDED;
+  // }
 
   function resetGame() {
     // TODO fix words, accuracy and errors not resetings correctly
@@ -91,9 +91,10 @@
   $: accuracy = calculateAccuracy($game.characters, $game.errors.total);
 </script>
 
-<Header bind:metricValue bind:gameMetric reset={resetGame} />
+<Header bind:metricValue bind:gameMetric />
 <pre>
-  {JSON.stringify($game, null, 2)}
+  {JSON.stringify($game.characters.join(''), null, 2)}
+  {JSON.stringify($game.state, null, 2)}
 </pre>
 <main class="flex flex-col justify-between gap-4">
   <div class="transition-force">
@@ -102,7 +103,7 @@
         <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
         <Counters {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
         <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress start={startGame} reset={resetGame} {words} />
+        <Keypress reset={resetGame} {words} />
         <Words {words} characters={$game.characters} />
       </div>
     {:else}
