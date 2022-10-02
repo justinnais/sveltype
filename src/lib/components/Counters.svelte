@@ -6,7 +6,7 @@
   export let words: IWord[];
   export let wpm: wpmMetrics;
   export let accuracy: number;
-  export let elapsedSeconds: number;
+  // export let elapsedSeconds: number;
 </script>
 
 <div class="text-lg font-medium flex flex-row justify-start gap-8 mb-4">
@@ -17,6 +17,6 @@
     <h4>{currentWord.id}/{words.length}</h4>
     <h4>{Math.trunc(wpm.net)} wpm</h4>
     <h4>{accuracy}% acc</h4>
-    <h4>{elapsedSeconds} seconds</h4>
+    <!-- <h4>{elapsedSeconds} seconds</h4> -->
   {/if}
 </div>

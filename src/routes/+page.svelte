@@ -19,23 +19,23 @@
 
   // TODO re-implement time code 
   /* TIME */
-  let elapsedSeconds = 0;
+  // let elapsedSeconds = 0;
 
-  // eslint-disable-next-line
-  let handleTimeout: any; // TODO replace
+  // // eslint-disable-next-line
+  // let handleTimeout: any; // TODO replace
 
-  function timerCycle() {
-    handleTimeout = setTimeout(incrementTime, 1000);
-  }
+  // function timerCycle() {
+  //   handleTimeout = setTimeout(incrementTime, 1000);
+  // }
 
-  function stopTimer() {
-    clearTimeout(handleTimeout);
-  }
+  // function stopTimer() {
+  //   clearTimeout(handleTimeout);
+  // }
 
-  function incrementTime() {
-    elapsedSeconds += 1;
-    timerCycle();
-  }
+  // function incrementTime() {
+  //   elapsedSeconds += 1;
+  //   timerCycle();
+  // }
 
   /* WPM */
   let wpm: wpmMetrics = { raw: 0, net: 0 };
@@ -65,7 +65,7 @@
       </div>
     {:else}
       <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
-        <Counters {currentWord} words={$game.words} {wpm} {accuracy} {elapsedSeconds} />
+        <Counters {currentWord} words={$game.words} {wpm} {accuracy} />
         <!-- <Timer {startTime} {gameRunning} /> -->
         <Keypress reset={game.reset} words={$game.words} />
         <Words words={$game.words} characters={$game.characters} />
