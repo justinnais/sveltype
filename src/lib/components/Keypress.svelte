@@ -4,7 +4,6 @@
 
   let key: string;
   export let currentChars: string[] = [];
-  export let typedChars: string[] = [];
   export let words: IWord[];
   export let start: () => void;
   export let reset: () => void;
@@ -44,7 +43,7 @@
     }
     currentChars = currentChars;
     // push all typed characters to calc the accuracy
-    typedChars = typedChars;
+    $game.allCharacters = $game.allCharacters;
   }
 
   function handleTab(event: KeyboardEvent) {
@@ -57,13 +56,13 @@
 
   function handleBackspace(key: string) {
     currentChars.pop();
-    typedChars.push(key);
+    $game.allCharacters.push(key);
   }
 
   function handleChar(key: string, isChar: boolean) {
     if (isChar) {
       currentChars.push(key);
-      typedChars.push(key);
+      $game.allCharacters.push(key);
 
       checkIfError(key, correctChars[currentChars.length - 1]);
     }

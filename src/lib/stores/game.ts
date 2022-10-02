@@ -4,8 +4,8 @@ import { writable, type Writable } from 'svelte/store';
 export const baseState: Game = {
   words: [],
   currentWord: null,
-  currentChars: [],
-  typedChars: [],
+  characters: [],
+  allCharacters: [],
   errors: {
     total: 0,
     uncorrected: 0

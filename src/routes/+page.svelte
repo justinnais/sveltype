@@ -19,7 +19,6 @@
 
   /* CHARS */
   let currentChars: string[] = []; // array of corrected characters, used to get caret position
-  let typedChars: string[] = []; // typed chars is all characters typed including errors
 
   /* GAME STATE */
   type gameOptions = 'Time' | 'Words';
@@ -47,7 +46,7 @@
     $game.state = GameState.WAITING;
     words = generateWords(metricValue);
     currentChars = [];
-    typedChars = [];
+    $game.allCharacters = [];
     $game.errors = {
       total: 0,
       uncorrected: 0
@@ -63,7 +62,6 @@
   }
 
   /* TIME */
-  $: duration = $game.time.end - $game.time.start;
   let elapsedSeconds = 0;
 
   // eslint-disable-next-line
@@ -87,8 +85,8 @@
   $: if (currentChars[currentChars.length - 1] === ' ') {
     // calcs wpm on spacebar
     // can't properly destructure in here
-    // TODO typedChars currently includes backspace, which it shouldn't
-    wpm = calculateWPM(typedChars, $game.errors.uncorrected, $game.time.start);
+    // TODO allCharacters currently includes backspace, which it shouldn't
+    wpm = calculateWPM($game.allCharacters, $game.errors.uncorrected, $game.time.start);
   }
 
   /* ACCURACY */
@@ -107,7 +105,7 @@
         <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
         <Counters {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
         <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress bind:currentChars bind:typedChars start={startGame} reset={resetGame} {words} />
+        <Keypress bind:currentChars start={startGame} reset={resetGame} {words} />
         <Words {words} {currentChars} />
       </div>
     {:else}

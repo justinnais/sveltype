@@ -4,7 +4,7 @@
   import type { IWord } from '$lib/types';
 
   export let words: IWord[];
-  export let currentChars;
+  export let currentChars: string[];
   let space = '&nbsp;';
 </script>
 

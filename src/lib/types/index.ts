@@ -33,8 +33,8 @@ export enum GameState {
 export interface Game {
   words: IWord[];
   currentWord: IWord | null;
-  currentChars: string[];
-  typedChars: string[];
+  characters: string[];
+  allCharacters: string[];
   errors: {
     total: number;
     uncorrected: number;
