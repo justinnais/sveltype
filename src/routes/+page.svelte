@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly, fade } from 'svelte/transition';
-
+  import { game } from '$lib/stores';
   import { Words, Keypress, Restart, Results, Counters, Header } from '$lib/components';
   import {
     generateWords,
@@ -52,7 +52,10 @@
     words = generateWords(metricValue);
     currentChars = [];
     typedChars = [];
-    errors = 0;
+    $game.errors = {
+      total: 0,
+      uncorrected: 0
+    };
     startTime = 0;
     elapsedSeconds = 0;
     stopTimer();
@@ -90,16 +93,19 @@
   $: if (currentChars[currentChars.length - 1] === ' ') {
     // calcs wpm on spacebar
     // can't properly destructure in here
-    wpm = calculateWPM(typedChars, errors, startTime);
+    // TODO typedChars currently includes backspace, which it shouldn't
+    wpm = calculateWPM(typedChars, $game.errors.uncorrected, startTime);
   }
 
   /* ACCURACY */
   let accuracy = 0;
-  let errors = 0;
-  $: accuracy = calculateAccuracy(currentChars, errors);
+  $: accuracy = calculateAccuracy(currentChars, $game.errors.total);
 </script>
 
 <Header bind:metricValue bind:gameMetric reset={resetGame} />
+<pre>
+  {JSON.stringify($game, null, 2)}
+</pre>
 <main class="flex flex-col justify-between gap-4">
   <div class="transition-force">
     {#if !gameCompleted}
@@ -114,13 +120,19 @@
           start={startGame}
           reset={resetGame}
           {words}
-          bind:errors
         />
         <Words {words} {currentChars} />
       </div>
     {:else}
       <div>
-        <Results words={words.length} {currentChars} {wpm} {accuracy} {errors} {duration} />
+        <Results
+          words={words.length}
+          {currentChars}
+          {wpm}
+          {accuracy}
+          errors={$game.errors.total}
+          {duration}
+        />
       </div>
     {/if}
   </div>

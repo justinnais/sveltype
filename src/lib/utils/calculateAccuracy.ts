@@ -1,3 +1,9 @@
+/**
+ *
+ * @param currentChars
+ * @param errors total number of errors
+ * @returns
+ */
 export function calculateAccuracy(currentChars: string[], errors: number): number {
   if (errors < 0 || isNaN(errors)) {
     throw new Error('errors must be a positive number');

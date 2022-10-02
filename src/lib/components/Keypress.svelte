@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { IWord } from '$lib/types';
+  import { game } from '$lib/stores'
 
   // https://svelte.dev/tutorial/svelte-window
   // https://svelte.dev/tutorial/updating-arrays-and-objects
@@ -7,7 +8,7 @@
   export let currentChars: string[] = [];
   export let typedChars: string[] = [];
   export let gameRunning: boolean;
-  export let errors: number;
+  // export let errors: number;
   export let words: IWord[];
   export let start: () => void;
   export let reset: () => void;
@@ -72,7 +73,9 @@
 
   function checkIfError(typed: string, correct: string) {
     if (typed !== correct) {
-      errors += 1;
+      $game.errors.total += 1;
+      $game.errors.uncorrected += 1;
+      // TODO need to check if the error is corrected and adjust uncorrectedErrors
     }
   }
 </script>
