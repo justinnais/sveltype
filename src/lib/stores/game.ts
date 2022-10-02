@@ -11,7 +11,10 @@ export const baseState: Game = {
     uncorrected: 0
   },
   state: GameState.WAITING,
-  time: {}
+  time: {
+    start: 0,
+    end: 0
+  }
 };
 
 export const game: Writable<Game> = writable(baseState);

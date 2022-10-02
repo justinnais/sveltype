@@ -34,12 +34,12 @@
 
   function startGame() {
     gameRunning = true;
-    startTime = Date.now();
+    $game.time.start = Date.now();
     timerCycle();
   }
 
   function endGame() {
-    endTime = Date.now();
+    $game.time.end = Date.now();
     stopTimer();
     gameRunning = false;
     gameCompleted = true;
@@ -56,7 +56,7 @@
       total: 0,
       uncorrected: 0
     };
-    startTime = 0;
+    $game.time.start = 0;
     elapsedSeconds = 0;
     stopTimer();
   }
@@ -67,9 +67,7 @@
   }
 
   /* TIME */
-  let startTime = 0;
-  let endTime = 0;
-  $: duration = endTime - startTime;
+  $: duration = $game.time.end - $game.time.start;
   let elapsedSeconds = 0;
 
   // eslint-disable-next-line
@@ -94,7 +92,7 @@
     // calcs wpm on spacebar
     // can't properly destructure in here
     // TODO typedChars currently includes backspace, which it shouldn't
-    wpm = calculateWPM(typedChars, $game.errors.uncorrected, startTime);
+    wpm = calculateWPM(typedChars, $game.errors.uncorrected, $game.time.start);
   }
 
   /* ACCURACY */
@@ -125,14 +123,7 @@
       </div>
     {:else}
       <div>
-        <Results
-          words={words.length}
-          {currentChars}
-          {wpm}
-          {accuracy}
-          errors={$game.errors.total}
-          {duration}
-        />
+        <Results words={words.length} {currentChars} {wpm} {accuracy} />
       </div>
     {/if}
   </div>

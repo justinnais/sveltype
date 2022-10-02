@@ -41,7 +41,7 @@ export interface Game {
   };
   state: GameState;
   time: {
-    start?: number;
-    end?: number;
+    start: number;
+    end: number;
   };
 }
