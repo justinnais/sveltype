@@ -1,10 +1,11 @@
 <script lang="ts">
-  import { GameState, type IWord } from '$lib/types';
+  import { GameState, type IWord, type wpmMetrics } from '$lib/types';
   import { game } from '$lib/stores';
+  import { calculateWPM } from '$lib/utils';
 
   let key: string;
   export let words: IWord[];
-  export let reset: () => void;
+  export let wpm: wpmMetrics;
 
   $: isRunning = $game.state === GameState.STARTED;
 
@@ -25,7 +26,7 @@
     } else if (isRunning && key === 'Escape') {
       // if the game is running and escape key is pressed, reset the game
       $game.characters = [];
-      reset();
+      game.reset();
     }
 
     switch (key) {
@@ -42,6 +43,7 @@
     $game.characters = $game.characters;
     // push all typed characters to calc the accuracy
     $game.allCharacters = $game.allCharacters;
+    wpm = calculateWPM($game.allCharacters, $game.errors.uncorrected, $game.time.start);
   }
 
   function handleTab(event: KeyboardEvent) {

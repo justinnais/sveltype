@@ -17,46 +17,12 @@
     game.end();
   }
 
-  // TODO re-implement time code 
-  /* TIME */
-  // let elapsedSeconds = 0;
-
-  // // eslint-disable-next-line
-  // let handleTimeout: any; // TODO replace
-
-  // function timerCycle() {
-  //   handleTimeout = setTimeout(incrementTime, 1000);
-  // }
-
-  // function stopTimer() {
-  //   clearTimeout(handleTimeout);
-  // }
-
-  // function incrementTime() {
-  //   elapsedSeconds += 1;
-  //   timerCycle();
-  // }
-
-  /* WPM */
   let wpm: wpmMetrics = { raw: 0, net: 0 };
-  $: if ($game.characters[$game.characters.length - 1] === ' ') {
-    // calcs wpm on spacebar
-    // can't properly destructure in here
-    // TODO allCharacters currently includes backspace, which it shouldn't
-    wpm = calculateWPM($game.allCharacters, $game.errors.uncorrected, $game.time.start);
-  }
-
-  /* ACCURACY */
   let accuracy = 0;
   $: accuracy = calculateAccuracy($game.characters, $game.errors.total);
 </script>
 
 <Header bind:metricValue bind:gameMetric />
-<pre>
-  {JSON.stringify($game.characters.join(''), null, 2)}
-  {JSON.stringify($game.errors, null, 2)}
-
-</pre>
 <main class="flex flex-col justify-between gap-4">
   <div class="transition-force">
     {#if $game.state === GameState.ENDED}
@@ -66,8 +32,7 @@
     {:else}
       <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
         <Counters {currentWord} words={$game.words} {wpm} {accuracy} />
-        <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress reset={game.reset} words={$game.words} />
+        <Keypress words={$game.words} bind:wpm />
         <Words words={$game.words} characters={$game.characters} />
       </div>
     {/if}
