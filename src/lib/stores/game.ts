@@ -1,5 +1,5 @@
 import { GameState, type Game } from '$lib/types';
-import { writable, type Writable } from 'svelte/store';
+import { writable } from 'svelte/store';
 
 export const baseState: Game = {
   words: [],
@@ -17,4 +17,26 @@ export const baseState: Game = {
   }
 };
 
-export const game: Writable<Game> = writable(baseState);
+function createGameStore() {
+  const { subscribe, set, update } = writable(baseState);
+
+  return {
+    subscribe,
+    set,
+    reset: () => set(baseState),
+    end: () =>
+      update((state) => ({
+        ...state,
+        state: GameState.ENDED,
+        time: { ...state.time, end: Date.now() }
+      })),
+    start: () =>
+      update((state) => ({
+        ...state,
+        state: GameState.STARTED,
+        time: { ...state.time, start: Date.now() }
+      }))
+  };
+}
+
+export const game = createGameStore();
