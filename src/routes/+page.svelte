@@ -2,62 +2,22 @@
   import { fly, fade } from 'svelte/transition';
   import { game } from '$lib/stores';
   import { Words, Keypress, Restart, Results, Counters, Header } from '$lib/components';
-  import {
-    generateWords,
-    wordsToChars,
-    calculateAccuracy,
-    calculateWPM,
-    getCurrentWord
-  } from '$lib/utils';
-  import { GameState, type IWord, type wpmMetrics } from '$lib/types';
+  import { wordsToChars, calculateAccuracy, calculateWPM, getCurrentWord } from '$lib/utils';
+  import { GameState, type wpmMetrics } from '$lib/types';
 
-  export let data: { words: IWord[] };
-
-  /* WORDS */
-  $: words = data.words; // list of generated words
-  $: currentWord = getCurrentWord(words, $game.characters);
+  $: currentWord = getCurrentWord($game.words, $game.characters);
 
   /* GAME STATE */
   type gameOptions = 'Time' | 'Words';
   let gameMetric: gameOptions = 'Words';
   let metricValue = 15;
 
-  $: if ($game.characters.length === wordsToChars(words).length) {
+  // this isn't a robust way to handle game ending
+  $: if ($game.characters.length === wordsToChars($game.words).length) {
     game.end();
   }
 
-  // function startGame() {
-  //   $game.state = GameState.STARTED;
-  //   $game.time.start = Date.now();
-  //   timerCycle();
-  // }
-
-  // function endGame() {
-  //   $game.time.end = Date.now();
-  //   stopTimer();
-  //   $game.state = GameState.ENDED;
-  // }
-
-  function resetGame() {
-    // TODO fix words, accuracy and errors not resetings correctly
-    $game.state = GameState.WAITING;
-    words = generateWords(metricValue);
-    $game.characters = [];
-    $game.allCharacters = [];
-    $game.errors = {
-      total: 0,
-      uncorrected: 0
-    };
-    $game.time.start = 0;
-    elapsedSeconds = 0;
-    stopTimer();
-  }
-
-  $: if (metricValue) {
-    // if we update word count, restart
-    resetGame();
-  }
-
+  // TODO re-implement time code 
   /* TIME */
   let elapsedSeconds = 0;
 
@@ -98,21 +58,20 @@
 </pre>
 <main class="flex flex-col justify-between gap-4">
   <div class="transition-force">
-    {#if $game.state !== GameState.ENDED}
-      <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
-        <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
-        <Counters {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
-        <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress reset={resetGame} {words} />
-        <Words {words} characters={$game.characters} />
+    {#if $game.state === GameState.ENDED}
+      <div>
+        <Results words={$game.words.length} characters={$game.characters} {wpm} {accuracy} />
       </div>
     {:else}
-      <div>
-        <Results words={words.length} characters={$game.characters} {wpm} {accuracy} />
+      <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
+        <Counters {currentWord} words={$game.words} {wpm} {accuracy} {elapsedSeconds} />
+        <!-- <Timer {startTime} {gameRunning} /> -->
+        <Keypress reset={game.reset} words={$game.words} />
+        <Words words={$game.words} characters={$game.characters} />
       </div>
     {/if}
   </div>
-  <Restart reset={resetGame} />
+  <Restart reset={game.reset} />
 </main>
 
 <style>

@@ -1,1 +1,1 @@
-export { game, baseState } from './game';
+export { game } from './game';

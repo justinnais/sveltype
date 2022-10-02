@@ -11,8 +11,8 @@
   >
     sveltype
   </h1>
-  <div class="flex flex-col items-end lowercase font-medium">
+  <!-- <div class="flex flex-col items-end lowercase font-medium">
     <RadioOptions options={['Words']} bind:active={gameMetric} />
     <RadioOptions options={[15, 30, 60]} bind:active={metricValue} />
-  </div>
+  </div> -->
 </header>
