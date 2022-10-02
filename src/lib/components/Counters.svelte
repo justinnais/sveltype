@@ -13,7 +13,7 @@
   {#if $game.state === GameState.WAITING}
     <h4>type to start</h4>
   {:else}
-    <h4>{currentWord.id}/{words.length}</h4>
+    <h4>{currentWord?.id ?? words.length}/{words.length}</h4>
     <h4>{Math.trunc(wpm.net)} wpm</h4>
     <h4>{accuracy}% acc</h4>
     <h4>{$elapsed} seconds</h4>

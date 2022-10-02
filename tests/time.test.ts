@@ -50,7 +50,7 @@ describe('net wpm', () => {
 
   it('should handle negative or zero inputs', () => {
     expect(() => calculateNetWPM(-1, -1, -1)).toThrowError('Invalid input');
-    expect(() => calculateNetWPM(0, 0, 0)).toThrowError('Invalid input');
+    expect(() => calculateNetWPM(0, 0, 0)).not.toThrowError();
   });
 
   it('should return 0 if wpm is negative', () => {

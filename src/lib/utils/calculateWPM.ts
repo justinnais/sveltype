@@ -46,8 +46,13 @@ export function calculateNetWPM(
   uncorrectedErrors: number,
   milliseconds: number
 ): number {
-  if (characters < 0 || milliseconds <= 0) {
+  if (characters < 0 || milliseconds < 0) {
     throw new Error('Invalid input');
+  }
+
+  // above check was throwing errors sometimes as could be 0 ms. 1ms for first calc is fine
+  if (milliseconds === 0) {
+    milliseconds += 1;
   }
 
   const raw = calculateRawWPM(characters, milliseconds);
