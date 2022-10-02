@@ -15,17 +15,14 @@
 
   /* WORDS */
   $: words = data.words; // list of generated words
-  $: currentWord = getCurrentWord(words, currentChars);
-
-  /* CHARS */
-  let currentChars: string[] = []; // array of corrected characters, used to get caret position
+  $: currentWord = getCurrentWord(words, $game.characters);
 
   /* GAME STATE */
   type gameOptions = 'Time' | 'Words';
   let gameMetric: gameOptions = 'Words';
   let metricValue = 15;
 
-  $: if (currentChars.length === wordsToChars(words).length) {
+  $: if ($game.characters.length === wordsToChars(words).length) {
     endGame();
   }
 
@@ -45,7 +42,7 @@
     // TODO fix words, accuracy and errors not resetings correctly
     $game.state = GameState.WAITING;
     words = generateWords(metricValue);
-    currentChars = [];
+    $game.characters = [];
     $game.allCharacters = [];
     $game.errors = {
       total: 0,
@@ -82,7 +79,7 @@
 
   /* WPM */
   let wpm: wpmMetrics = { raw: 0, net: 0 };
-  $: if (currentChars[currentChars.length - 1] === ' ') {
+  $: if ($game.characters[$game.characters.length - 1] === ' ') {
     // calcs wpm on spacebar
     // can't properly destructure in here
     // TODO allCharacters currently includes backspace, which it shouldn't
@@ -91,7 +88,7 @@
 
   /* ACCURACY */
   let accuracy = 0;
-  $: accuracy = calculateAccuracy(currentChars, $game.errors.total);
+  $: accuracy = calculateAccuracy($game.characters, $game.errors.total);
 </script>
 
 <Header bind:metricValue bind:gameMetric reset={resetGame} />
@@ -105,12 +102,12 @@
         <!-- these extra divs are needed to wrap transition-force children in to fix animation issue -->
         <Counters {currentWord} {words} {wpm} {accuracy} {elapsedSeconds} />
         <!-- <Timer {startTime} {gameRunning} /> -->
-        <Keypress bind:currentChars start={startGame} reset={resetGame} {words} />
-        <Words {words} {currentChars} />
+        <Keypress start={startGame} reset={resetGame} {words} />
+        <Words {words} characters={$game.characters} />
       </div>
     {:else}
       <div>
-        <Results words={words.length} {currentChars} {wpm} {accuracy} />
+        <Results words={words.length} characters={$game.characters} {wpm} {accuracy} />
       </div>
     {/if}
   </div>

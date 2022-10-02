@@ -4,7 +4,7 @@
   import type { IWord } from '$lib/types';
 
   export let words: IWord[];
-  export let currentChars: string[];
+  export let characters: string[];
   let space = '&nbsp;';
 </script>
 
@@ -20,7 +20,7 @@
         {#each words as word}
           <span id={`word-${word.id}`} class="word leading-6">
             {#each word.characters as char}
-              <Letter id={char.id} {currentChars} {words}
+              <Letter id={char.id} characters={characters} {words}
                 >{@html char.char === ' ' ? space : char.char}</Letter
               >
             {/each}

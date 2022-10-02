@@ -3,7 +3,6 @@
   import { game } from '$lib/stores';
 
   let key: string;
-  export let currentChars: string[] = [];
   export let words: IWord[];
   export let start: () => void;
   export let reset: () => void;
@@ -26,7 +25,7 @@
       start();
     } else if (isRunning && key === 'Escape') {
       // if the game is running and escape key is pressed, reset the game
-      currentChars = [];
+      $game.characters = [];
       reset();
     }
 
@@ -41,7 +40,7 @@
         handleChar(key, isChar);
         break;
     }
-    currentChars = currentChars;
+    $game.characters = $game.characters;
     // push all typed characters to calc the accuracy
     $game.allCharacters = $game.allCharacters;
   }
@@ -55,16 +54,16 @@
   }
 
   function handleBackspace(key: string) {
-    currentChars.pop();
+    $game.characters.pop();
     $game.allCharacters.push(key);
   }
 
   function handleChar(key: string, isChar: boolean) {
     if (isChar) {
-      currentChars.push(key);
+      $game.characters.push(key);
       $game.allCharacters.push(key);
 
-      checkIfError(key, correctChars[currentChars.length - 1]);
+      checkIfError(key, correctChars[$game.characters.length - 1]);
     }
   }
 

@@ -4,12 +4,12 @@
   import Caret from './Caret.svelte';
 
   export let id;
-  export let currentChars;
+  export let characters;
   export let words;
 
-  $: touched = currentChars.length > id;
-  $: isCorrect = wordsToChars(words)[id].char === currentChars[id];
-  $: showCaret = currentChars.length === id;
+  $: touched = characters.length > id;
+  $: isCorrect = wordsToChars(words)[id].char === characters[id];
+  $: showCaret = characters.length === id;
 
   // caret animation
   const duration = 200;
