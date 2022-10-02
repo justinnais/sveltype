@@ -2,7 +2,7 @@
   import { fly, fade } from 'svelte/transition';
   import { elapsed, game } from '$lib/stores';
   import { Words, Keypress, Restart, Results, Counters, Header } from '$lib/components';
-  import { wordsToChars, calculateAccuracy, calculateWPM, getCurrentWord } from '$lib/utils';
+  import { wordsToChars, calculateAccuracy, getCurrentWord } from '$lib/utils';
   import { GameState, type wpmMetrics } from '$lib/types';
 
   $: currentWord = getCurrentWord($game.words, $game.characters);
