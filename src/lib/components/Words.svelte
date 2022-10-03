@@ -6,7 +6,6 @@
   export let words: IWord[];
   export let characters: string[];
   let space = '&nbsp;';
-  
 </script>
 
 <!-- this div is needed to workaround Svelte bug https://github.com/sveltejs/svelte/issues/544 -->

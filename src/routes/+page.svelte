@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly, fade } from 'svelte/transition';
-  import { elapsed, game } from '$lib/stores';
+  import { game } from '$lib/stores';
   import { Words, Keypress, Restart, Results, Counters, Header } from '$lib/components';
   import { wordsToChars, calculateAccuracy, getCurrentWord } from '$lib/utils';
   import { GameState, type wpmMetrics } from '$lib/types';

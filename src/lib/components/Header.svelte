@@ -1,7 +1,7 @@
 <script lang="ts">
-  import RadioOptions from './RadioOptions.svelte';
-  export let gameMetric: string | number;
-  export let metricValue: string | number;
+  // import RadioOptions from './RadioOptions.svelte';
+  // export let gameMetric: string | number;
+  // export let metricValue: string | number;
   // export let reset: () => void;
 </script>
 
