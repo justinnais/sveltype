@@ -1,5 +1,4 @@
 export { default as Accuracy } from './Accuracy.svelte';
-export { default as Caret } from './Caret.svelte';
 export { default as Counters } from './Counters.svelte';
 export { default as Header } from './Header.svelte';
 export { default as Keypress } from './Keypress.svelte';
