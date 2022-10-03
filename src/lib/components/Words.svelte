@@ -5,7 +5,11 @@
 
   export let words: IWord[];
   export let characters: string[];
+  export let currentWord: IWord | undefined;
   let space = '&nbsp;';
+
+  $: element = currentWord ? document.getElementById('word-' + currentWord.id) : null;
+  $: element?.scrollIntoView({ behavior: 'smooth', block: 'center' });
 </script>
 
 <!-- this div is needed to workaround Svelte bug https://github.com/sveltejs/svelte/issues/544 -->
@@ -13,17 +17,17 @@
   <!-- this is a hacky key to prevent transition spam due to using array as key, plan to replace this with some kind of uuid that gets generated on word creation -->
   {#key words.map(({ word }) => word).join('')}
     <div
-      class="words-container"
+      class="min-h-[10rem]"
       in:fly={{ y: 20, duration: 500 }}
       out:fly={{ y: -20, duration: 250 }}
     >
       <div class="words">
         {#each words as word}
-          <span id={`word-${word.id}`} class="word leading-6">
+          <span id={`word-${word.id}`} class="mb-2">
             {#each word.characters as char}
-              <Letter id={char.id} {characters} {words}
-                >{@html char.char === ' ' ? space : char.char}</Letter
-              >
+              <Letter id={char.id} {characters} {words}>
+                {@html char.char === ' ' ? space : char.char}
+              </Letter>
             {/each}
           </span>
         {/each}
@@ -32,21 +36,10 @@
   {/key}
 </div>
 
-<style>
-  .words-container {
-    min-height: 10rem;
-    overflow: hidden;
-  }
+<style lang="postcss">
   .words {
-    font-family: monospace;
-    font-size: 1.5rem;
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-  }
-  .word {
-    display: flex;
-    margin-bottom: 0.4rem;
+    @apply font-mono text-2xl leading-6 w-full flex flex-wrap overflow-hidden select-none p-px;
+    max-height: calc(3 * (theme(spacing.6) + theme(spacing.2)));
   }
   .transition-force {
     display: grid;

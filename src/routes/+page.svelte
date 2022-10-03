@@ -33,7 +33,7 @@
       <div out:fly={{ y: -20, duration: 250 }} in:fade={{ duration: 500 }}>
         <Counters {currentWord} words={$game.words} {wpm} {accuracy} />
         <Keypress words={$game.words} bind:wpm />
-        <Words words={$game.words} characters={$game.characters} />
+        <Words words={$game.words} characters={$game.characters} {currentWord} />
       </div>
     {/if}
   </div>
