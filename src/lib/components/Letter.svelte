@@ -6,7 +6,7 @@
   export let characters: string[];
   export let words: IWord[];
 
-  const correctChars = wordsToChars(words)
+  const correctChars = wordsToChars(words);
 
   $: touched = characters.length > id;
   $: isCorrect = correctChars[id].char === characters[id];
@@ -33,11 +33,10 @@
   }
   .incorrect {
     @apply text-primary/60;
-    
   }
   .incorrect-space {
-      @apply bg-primary/60
-    }
+    @apply bg-primary/60;
+  }
   .caret {
     @apply before:content-['|'] before:w-0 before:-translate-x-[0.4375rem] before:text-primary;
   }
