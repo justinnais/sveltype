@@ -2,7 +2,7 @@
   import { elapsed, game } from '$lib/stores';
   import { GameState, type IWord, type wpmMetrics } from '$lib/types';
 
-  export let currentWord: IWord;
+  export let currentWord: IWord | undefined;
   export let words: IWord[];
   export let wpm: wpmMetrics;
   export let accuracy: number;

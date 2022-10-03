@@ -1,51 +1,59 @@
 <script lang="ts">
-  import { fly } from 'svelte/transition';
   import { wordsToChars } from '$lib/utils';
-  import Caret from './Caret.svelte';
+  import type { IWord } from '$lib/types';
 
-  export let id;
-  export let characters;
-  export let words;
+  export let id: number;
+  export let characters: string[];
+  export let words: IWord[];
+
+  const correctChars = wordsToChars(words);
 
   $: touched = characters.length > id;
-  $: isCorrect = wordsToChars(words)[id].char === characters[id];
+  $: isCorrect = correctChars[id].char === characters[id];
   $: showCaret = characters.length === id;
-
-  // caret animation
-  const duration = 200;
-  const x = 15; // width of letter element
-
-  // TODO calculate the duration based on users WPM
-  // TODO adjusted x direction if backspace
 </script>
 
-{#if showCaret}
-  <div out:fly={{ x, duration }} in:fly={{ x: -x, duration }}>
-    <Caret />
-  </div>
-{/if}
 <span
   id={`char-${id}`}
   class="letter"
   class:incorrect={touched && !isCorrect}
+  class:incorrect-space={touched && !isCorrect && correctChars[id].char === ' '}
   class:correct={touched && isCorrect}
+  class:caret={showCaret}
 >
   <slot />
 </span>
 
-<style>
+<style lang="postcss">
   .letter {
-    /* padding left size of caret width */
-    padding: 0 1px;
-    display: inline-flex;
-    /* color: grey; */
-    opacity: 50%;
+    @apply text-neutral-500 inline-flex py-0 px-px;
   }
   .correct {
-    /* color: white; */
-    opacity: 100%;
+    @apply text-neutral-100;
   }
   .incorrect {
-    background-color: rgb(160, 67, 67);
+    @apply text-primary/60;
+  }
+  .incorrect-space {
+    @apply bg-primary/60;
+  }
+  .caret {
+    @apply before:content-['|'] before:w-0 before:-translate-x-[0.4375rem] before:text-primary;
+  }
+
+  .caret::before {
+    animation: blink 1.2s steps(3, start) infinite;
+    -webkit: blink 1.2s steps(3, start) infinite;
+  }
+
+  @keyframes blink {
+    to {
+      visibility: hidden;
+    }
+  }
+  @-webkit-keyframes blink {
+    to {
+      visibility: hidden;
+    }
   }
 </style>

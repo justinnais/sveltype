@@ -3,7 +3,7 @@ import { generateWords, getUncorrectedErrors } from '$lib/utils';
 import { writable } from 'svelte/store';
 
 const baseState: Game = {
-  words: generateWords(30),
+  words: generateWords(40),
   currentWord: null,
   characters: [],
   allCharacters: [],
@@ -26,9 +26,9 @@ function createGameStore() {
     set,
     reset: () => {
       // this does weird stuff with obj copy, have to manually reset each value
-      // set({ ...baseState, words: generateWords(30) });
+      // set({ ...baseState, words: generateWords(40) });
       set({
-        words: generateWords(30),
+        words: generateWords(40),
         currentWord: null,
         characters: [],
         allCharacters: [],
