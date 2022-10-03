@@ -1,13 +1,13 @@
 <script lang="ts">
+  import { game } from '$lib/stores';
   import type { wpmMetrics } from '$lib/types';
   import { fly } from 'svelte/transition';
 
   export let words: number;
-  export let currentChars: string[];
+  export let characters: string[];
   export let wpm: wpmMetrics;
   export let accuracy: number;
-  export let errors: number;
-  export let duration: number;
+  const duration = $game.time.end - $game.time.start;
   let seconds = (duration / 1000).toFixed(2);
 </script>
 
@@ -26,8 +26,8 @@
       <h4>{wpm.raw} raw</h4>
       <h4>{seconds} seconds</h4>
       <h4>{words} words</h4>
-      <h4>{currentChars.length} characters</h4>
-      <h4>{errors} error{errors === 1 ? '' : 's'}</h4>
+      <h4>{characters.length} characters</h4>
+      <h4>{$game.errors.total} error{$game.errors.total === 1 ? '' : 's'}</h4>
     </div>
   </div>
 </div>

@@ -23,3 +23,25 @@ export interface Duration {
   minutes?: number;
   seconds?: number;
 }
+
+export enum GameState {
+  WAITING,
+  STARTED,
+  ENDED
+}
+
+export interface Game {
+  words: IWord[];
+  currentWord: IWord | null;
+  characters: string[];
+  allCharacters: string[];
+  errors: {
+    total: number;
+    uncorrected: number;
+  };
+  state: GameState;
+  time: {
+    start: number;
+    end: number;
+  };
+}

@@ -59,7 +59,7 @@ describe('words to chars', () => {
   const chars = wordsToChars(words);
 
   it('should have the same number of chars as the word', () => {
-    expect(chars.length).toBe(wordsToChars(words).length);
+    expect(chars.length).toBe(listOfWords.join(' ').length);
   });
 
   it('should have characters matching their parent word', () => {
