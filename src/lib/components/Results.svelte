@@ -9,6 +9,7 @@
   export let accuracy: number;
   const duration = $game.time.end - $game.time.start;
   let seconds = (duration / 1000).toFixed(2);
+  // TODO recalculate the results on game end as gives silly numbers if a user times out
 </script>
 
 <div class="transition-force">

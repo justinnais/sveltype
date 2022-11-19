@@ -20,6 +20,9 @@
     const regex = /^[\w\W]$/gm; // true if any single char - no words or modifiers
     const isChar = regex.test(key);
 
+    // prevent going back to game during transition period
+    if ($game.state === GameState.ENDED) return;
+
     if (!isRunning && isChar) {
       // if the game is not running, start the game if character is typed
       game.start();
