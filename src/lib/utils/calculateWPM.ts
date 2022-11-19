@@ -1,4 +1,4 @@
-import type { wpmMetrics } from '$lib/types';
+import type { WpmMetrics } from '$lib/types';
 
 const MINUTE_AS_MILLISECONDS = 60000;
 
@@ -15,7 +15,7 @@ export function calculateWPM(
   allCharacters: string[],
   uncorrectedErrors: number,
   startTime: number
-): wpmMetrics {
+): WpmMetrics {
   const duration = Date.now() - startTime;
 
   return {
