@@ -23,7 +23,8 @@ export const time = derived([timer, game], ([$time, $game]) => {
   const remaining = $game.count - elapsed;
 
   if ($game.mode === 'TIME' && remaining <= 0) {
-    game.end();
+    // TODO this crashes the app
+    // game.end();
   }
 
   return {
