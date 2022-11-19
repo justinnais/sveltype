@@ -1,6 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { generateWords, wordsToChars } from '$lib/utils';
-import { getDetailedWords, listOfWords } from '$lib/utils/generate';
+import { getDetailedWords } from '$lib/utils/generate';
+import english1k from '$lib/data/languages/english1k.json';
+
+const listOfWords = english1k.words;
 
 describe('word generation', () => {
   it('should generate 0 words', () => {

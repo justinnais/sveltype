@@ -6,6 +6,7 @@ export function generateWords(count: number): IWord[] {
     throw new Error('count must be a positive number');
   }
 
+  const foo = Array.from({ length: 10 }, () => getWord());
   return getDetailedWords(Array.from({ length: count }, () => getWord()));
 }
 
@@ -34,7 +35,7 @@ export function getDetailedWords(words: string[]): IWord[] {
   return wordsArr;
 }
 
-function getWord() {
+function getWord(): string {
   const words = english.words;
   return words[Math.floor(Math.random() * words.length)];
 }
