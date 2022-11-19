@@ -2,6 +2,7 @@ import type { GameMode } from '$lib/types';
 import { writable } from 'svelte/store';
 import { game } from './game';
 
+// TODO get these from local storage
 const defaultSettings = {
   mode: 'TIME',
   count: 30
@@ -15,6 +16,7 @@ interface Settings {
 function createSettingsStore() {
   const { subscribe, set } = writable<Settings>({ ...defaultSettings });
 
+  // TODO not sure this is great, game would not reset if settings are changed using set
   return {
     subscribe,
     set,

@@ -27,9 +27,12 @@ function createGameStore() {
     // this does weird stuff with obj copy, have to manually reset each value
     // set({ ...baseState, words: generateWords(40) });
 
-    if (!mode || !count)
-      throw new Error('TODO get values from settings store - too hard right now');
-
+    if (!mode || !count) {
+      // throw new Error('TODO get values from settings store - too hard right now');
+      mode = 'TIME';
+      count = 30;
+    }
+    
     set({
       words: generateWords(mode === 'WORDS' ? count : 50),
       currentWord: null,
