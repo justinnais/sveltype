@@ -1,5 +1,5 @@
 import { readable, derived } from 'svelte/store';
-import { game } from '$lib/stores';
+import { game, settings } from '$lib/stores';
 import { GameState, type Game } from '$lib/types';
 
 const timer = readable(new Date(), (set) => {
@@ -22,7 +22,7 @@ const timer = readable(new Date(), (set) => {
   };
 });
 
-export const time = derived([timer, game], ([$timer, $game]) => {
+export const time = derived([timer, game, settings], ([$timer, $game, $settings]) => {
   // TODO this isn't accurate enough
   const diff = $timer.getTime() - $game.time.start;
   const duration = Math.floor(diff / 1000);
@@ -31,9 +31,9 @@ export const time = derived([timer, game], ([$timer, $game]) => {
     elapsed = 0;
   }
 
-  const remaining = $game.count - elapsed;
+  const remaining = $settings.count - elapsed;
 
-  if ($game.mode === 'TIME' && remaining <= 0) {
+  if ($settings.mode === 'TIME' && remaining <= 0) {
     // TODO this crashes the app
     // game.end();
   }

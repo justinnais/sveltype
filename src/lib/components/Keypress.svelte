@@ -1,6 +1,6 @@
 <script lang="ts">
   import { GameState, type IWord, type WpmMetrics } from '$lib/types';
-  import { game } from '$lib/stores';
+  import { game, settings } from '$lib/stores';
   import { calculateWPM } from '$lib/utils';
 
   let key: string;
@@ -29,7 +29,7 @@
     } else if (isRunning && key === 'Escape') {
       // if the game is running and escape key is pressed, reset the game
       $game.characters = [];
-      game.reset();
+      game.reset($settings.mode, $settings.count)
     }
 
     switch (key) {

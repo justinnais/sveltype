@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { game, time } from '$lib/stores';
+  import { game, settings, time } from '$lib/stores';
   import { GameState, type IWord, type WpmMetrics } from '$lib/types';
 
   export let currentWord: IWord | undefined;
@@ -15,7 +15,7 @@
   {:else}
     <span>{Math.trunc(wpm.net)} wpm</span>
     <span>{accuracy}% acc</span>
-    {#if $game.mode === 'WORDS'}
+    {#if $settings.mode === 'WORDS'}
       <span>{currentWord?.id ?? words.length}/{words.length}</span>
       <span>{$time.elapsed} seconds</span>
       {:else}

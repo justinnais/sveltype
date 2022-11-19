@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fly, fade } from 'svelte/transition';
-  import { game, time } from '$lib/stores';
+  import { game, settings, time } from '$lib/stores';
   import { Words, Keypress, Restart, Results, Counters, RadioOptions } from '$lib/components';
   import { wordsToChars, calculateAccuracy, getCurrentWord } from '$lib/utils';
   import { GameState, type GameMode, type WpmMetrics } from '$lib/types';
@@ -11,17 +11,14 @@
   const gameOptions: GameMode[] = ['TIME', 'WORDS'];
 
   $: finishedWords =
-    $game.mode === 'WORDS' && $game.characters.length === wordsToChars($game.words).length;
-  $: outOfTime = $game.mode === 'TIME' && $time.remaining <= 0;
+    $settings.mode === 'WORDS' && $game.characters.length === wordsToChars($game.words).length;
+  $: outOfTime = $settings.mode === 'TIME' && $time.remaining <= 0;
 
   $: if (finishedWords || outOfTime) {
     game.end();
   }
-  // I want this to update the game settings when the radio buttons change, but it is firing every keypress
-  // TODO maybe move settings into their own store
-  // $: game.changeSettings($game.mode, $game.count)
 
-  $: console.log($game.mode);
+  $: settings.changeSettings($settings.mode, $settings.count);
 
   let wpm: WpmMetrics = { raw: 0, net: 0 };
   let accuracy = 0;
@@ -29,8 +26,8 @@
 </script>
 
 <div class="flex flex-col items-end lowercase font-medium">
-  <RadioOptions options={gameOptions} bind:active={$game.mode} />
-  <RadioOptions options={[15, 30, 60]} bind:active={$game.count} />
+  <RadioOptions options={gameOptions} bind:active={$settings.mode} />
+  <RadioOptions options={[15, 30, 60]} bind:active={$settings.count} />
 </div>
 <div class="transition-force">
   {#if $game.state === GameState.ENDED}
@@ -45,7 +42,7 @@
     </div>
   {/if}
 </div>
-<Restart reset={game.reset} />
+<Restart reset={() => game.reset($settings.mode, $settings.count)} />
 
 <style>
   .transition-force {

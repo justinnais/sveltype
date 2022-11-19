@@ -33,8 +33,6 @@ export enum GameState {
 export type GameMode = 'TIME' | 'WORDS';
 
 export interface Game {
-  mode: GameMode;
-  count: number;
   words: IWord[];
   currentWord: IWord | null;
   characters: string[];

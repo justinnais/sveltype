@@ -1,16 +1,10 @@
 import { GameState, type Game, type GameMode } from '$lib/types';
 import { generateWords, getUncorrectedErrors } from '$lib/utils';
 import { writable } from 'svelte/store';
-
-const defaultValues = {
-  mode: 'TIME',
-  count: 30
-} as const;
-
+import { settings } from './settings';
 // 50 words to start when using time, when half way through, push another 50 - this will be an issue with current way of creating IWords
 
 const baseState: Game = {
-  ...defaultValues,
   words: generateWords(50),
   currentWord: null,
   characters: [],
@@ -27,14 +21,16 @@ const baseState: Game = {
 };
 
 function createGameStore() {
-  const { subscribe, set, update } = writable({ ...baseState });
+  const { subscribe, set, update } = writable<Game>({ ...baseState });
 
-  const reset = (mode: GameMode = 'TIME', count = 30) => {
+  const reset = (mode?: GameMode, count?: number) => {
     // this does weird stuff with obj copy, have to manually reset each value
     // set({ ...baseState, words: generateWords(40) });
+
+    if (!mode || !count)
+      throw new Error('TODO get values from settings store - too hard right now');
+
     set({
-      mode,
-      count,
       words: generateWords(mode === 'WORDS' ? count : 50),
       currentWord: null,
       characters: [],
@@ -70,8 +66,7 @@ function createGameStore() {
         ...state,
         state: GameState.STARTED,
         time: { ...state.time, start: Date.now() }
-      })),
-    changeSettings: (mode: GameMode, count: number) => reset(mode, count)
+      }))
   };
 }
 
