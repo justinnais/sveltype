@@ -1,11 +1,11 @@
 <script lang="ts">
   import { game } from '$lib/stores';
-  import type { wpmMetrics } from '$lib/types';
+  import type { WpmMetrics } from '$lib/types';
   import { fly } from 'svelte/transition';
 
   export let words: number;
   export let characters: string[];
-  export let wpm: wpmMetrics;
+  export let wpm: WpmMetrics;
   export let accuracy: number;
   const duration = $game.time.end - $game.time.start;
   let seconds = (duration / 1000).toFixed(2);

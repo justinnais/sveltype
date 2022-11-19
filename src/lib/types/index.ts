@@ -9,7 +9,7 @@ export interface IChar {
   id: number;
 }
 
-export interface wpmMetrics {
+export interface WpmMetrics {
   raw: number;
   net: number;
 }
@@ -30,7 +30,11 @@ export enum GameState {
   ENDED
 }
 
+export type GameMode = 'TIME' | 'WORDS';
+
 export interface Game {
+  mode: GameMode;
+  count: number;
   words: IWord[];
   currentWord: IWord | null;
   characters: string[];

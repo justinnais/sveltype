@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { GameState, type IWord, type wpmMetrics } from '$lib/types';
+  import { GameState, type IWord, type WpmMetrics } from '$lib/types';
   import { game } from '$lib/stores';
   import { calculateWPM } from '$lib/utils';
 
   let key: string;
   export let words: IWord[];
-  export let wpm: wpmMetrics;
+  export let wpm: WpmMetrics;
 
   $: isRunning = $game.state === GameState.STARTED;
 

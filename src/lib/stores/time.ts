@@ -1,7 +1,7 @@
 import { readable, derived } from 'svelte/store';
 import { game } from '$lib/stores';
 
-const time = readable(new Date(), (set) => {
+const timer = readable(new Date(), (set) => {
   const interval = setInterval(() => {
     set(new Date());
   }, 1000);
@@ -12,11 +12,22 @@ const time = readable(new Date(), (set) => {
   };
 });
 
-export const elapsed = derived([time, game], ([$time, $game]) => {
+export const time = derived([timer, game], ([$time, $game]) => {
   const diff = $time.getTime() - $game.time.start;
   const duration = Math.ceil(diff / 1000);
+  let elapsed = duration;
   if ($game.time.start === 0 || duration < 0) {
-    return 0;
+    elapsed = 0;
   }
-  return duration;
+
+  const remaining = $game.count - elapsed;
+
+  if ($game.mode === 'TIME' && remaining <= 0) {
+    game.end();
+  }
+
+  return {
+    elapsed,
+    remaining
+  };
 });

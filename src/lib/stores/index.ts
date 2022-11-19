@@ -1,2 +1,2 @@
 export { game } from './game';
-export { elapsed } from './time';
+export { time } from './time';
