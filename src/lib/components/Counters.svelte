@@ -18,7 +18,7 @@
     {#if $settings.mode === 'WORDS'}
       <span>{currentWord?.id ?? words.length}/{words.length}</span>
       <span>{$time.elapsed} seconds</span>
-      {:else}
+    {:else}
       <span>{$time.remaining} seconds</span>
     {/if}
   {/if}

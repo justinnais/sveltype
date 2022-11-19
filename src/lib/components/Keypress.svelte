@@ -29,7 +29,7 @@
     } else if (isRunning && key === 'Escape') {
       // if the game is running and escape key is pressed, reset the game
       $game.characters = [];
-      game.reset($settings.mode, $settings.count)
+      game.reset($settings.mode, $settings.count);
     }
 
     switch (key) {

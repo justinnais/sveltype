@@ -1,7 +1,6 @@
 import { GameState, type Game, type GameMode } from '$lib/types';
 import { generateWords, getUncorrectedErrors } from '$lib/utils';
 import { writable } from 'svelte/store';
-import { settings } from './settings';
 // 50 words to start when using time, when half way through, push another 50 - this will be an issue with current way of creating IWords
 
 const baseState: Game = {
@@ -32,7 +31,7 @@ function createGameStore() {
       mode = 'TIME';
       count = 30;
     }
-    
+
     set({
       words: generateWords(mode === 'WORDS' ? count : 50),
       currentWord: null,
